@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6CA616759DA018491474E3B9 /* Pods_AnimaxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CBB12FB489AE2EE7B661254 /* Pods_AnimaxTests.framework */; };
+		BC679CB7AF8B4E46E8D74D36 /* Pods_Animax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1D78CDA29DFB205BADB618 /* Pods_Animax.framework */; };
+		EC93CA75CF5C88B00285F7FC /* Pods_Animax_AnimaxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 727546613ACD5AAE00910D77 /* Pods_Animax_AnimaxUITests.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8D6557A22D8CD8DD00E7A18C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,16 +30,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1CBB12FB489AE2EE7B661254 /* Pods_AnimaxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimaxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B1D78CDA29DFB205BADB618 /* Pods_Animax.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Animax.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		617BB84B39D704D913349C9D /* Pods-Animax-AnimaxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Animax-AnimaxUITests.debug.xcconfig"; path = "Target Support Files/Pods-Animax-AnimaxUITests/Pods-Animax-AnimaxUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		62870750F8D43CA77A4BD627 /* Pods-Animax.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Animax.debug.xcconfig"; path = "Target Support Files/Pods-Animax/Pods-Animax.debug.xcconfig"; sourceTree = "<group>"; };
+		727546613ACD5AAE00910D77 /* Pods_Animax_AnimaxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Animax_AnimaxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		78B2F7583593FA77145D243E /* Pods-Animax.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Animax.release.xcconfig"; path = "Target Support Files/Pods-Animax/Pods-Animax.release.xcconfig"; sourceTree = "<group>"; };
 		8D65578B2D8CD8DD00E7A18C /* Animax.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Animax.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D6557A12D8CD8DD00E7A18C /* AnimaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimaxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D6557AB2D8CD8DD00E7A18C /* AnimaxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimaxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4F91A004858F2DCD838071B /* Pods-AnimaxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimaxTests.release.xcconfig"; path = "Target Support Files/Pods-AnimaxTests/Pods-AnimaxTests.release.xcconfig"; sourceTree = "<group>"; };
+		D218115999ECA64E830C7589 /* Pods-Animax-AnimaxUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Animax-AnimaxUITests.release.xcconfig"; path = "Target Support Files/Pods-Animax-AnimaxUITests/Pods-Animax-AnimaxUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E1A1052DDFCA72AF8EB01995 /* Pods-AnimaxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimaxTests.debug.xcconfig"; path = "Target Support Files/Pods-AnimaxTests/Pods-AnimaxTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		8D6557B32D8CD8DD00E7A18C /* Exceptions for "Animax" folder in "Animax" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resource/Info.plist,
 			);
 			target = 8D65578A2D8CD8DD00E7A18C /* Animax */;
 		};
@@ -65,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC679CB7AF8B4E46E8D74D36 /* Pods_Animax.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CA616759DA018491474E3B9 /* Pods_AnimaxTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +96,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC93CA75CF5C88B00285F7FC /* Pods_Animax_AnimaxUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		158CB9308469E46C9834F34C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				62870750F8D43CA77A4BD627 /* Pods-Animax.debug.xcconfig */,
+				78B2F7583593FA77145D243E /* Pods-Animax.release.xcconfig */,
+				617BB84B39D704D913349C9D /* Pods-Animax-AnimaxUITests.debug.xcconfig */,
+				D218115999ECA64E830C7589 /* Pods-Animax-AnimaxUITests.release.xcconfig */,
+				E1A1052DDFCA72AF8EB01995 /* Pods-AnimaxTests.debug.xcconfig */,
+				A4F91A004858F2DCD838071B /* Pods-AnimaxTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		1E8064F5AE85EDFE9EED18BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B1D78CDA29DFB205BADB618 /* Pods_Animax.framework */,
+				727546613ACD5AAE00910D77 /* Pods_Animax_AnimaxUITests.framework */,
+				1CBB12FB489AE2EE7B661254 /* Pods_AnimaxTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8D6557822D8CD8DD00E7A18C = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +133,8 @@
 				8D6557A42D8CD8DD00E7A18C /* AnimaxTests */,
 				8D6557AE2D8CD8DD00E7A18C /* AnimaxUITests */,
 				8D65578C2D8CD8DD00E7A18C /* Products */,
+				158CB9308469E46C9834F34C /* Pods */,
+				1E8064F5AE85EDFE9EED18BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D6557B42D8CD8DD00E7A18C /* Build configuration list for PBXNativeTarget "Animax" */;
 			buildPhases = (
+				A0B0C5E4884D5484F8680352 /* [CP] Check Pods Manifest.lock */,
 				8D6557872D8CD8DD00E7A18C /* Sources */,
 				8D6557882D8CD8DD00E7A18C /* Frameworks */,
 				8D6557892D8CD8DD00E7A18C /* Resources */,
+				982890BD9300B4F303F0A568 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,8 +169,6 @@
 				8D65578D2D8CD8DD00E7A18C /* Animax */,
 			);
 			name = Animax;
-			packageProductDependencies = (
-			);
 			productName = Animax;
 			productReference = 8D65578B2D8CD8DD00E7A18C /* Animax.app */;
 			productType = "com.apple.product-type.application";
@@ -134,6 +177,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D6557B92D8CD8DD00E7A18C /* Build configuration list for PBXNativeTarget "AnimaxTests" */;
 			buildPhases = (
+				C62247F46E52E49A67590744 /* [CP] Check Pods Manifest.lock */,
 				8D65579D2D8CD8DD00E7A18C /* Sources */,
 				8D65579E2D8CD8DD00E7A18C /* Frameworks */,
 				8D65579F2D8CD8DD00E7A18C /* Resources */,
@@ -147,8 +191,6 @@
 				8D6557A42D8CD8DD00E7A18C /* AnimaxTests */,
 			);
 			name = AnimaxTests;
-			packageProductDependencies = (
-			);
 			productName = AnimaxTests;
 			productReference = 8D6557A12D8CD8DD00E7A18C /* AnimaxTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D6557BC2D8CD8DD00E7A18C /* Build configuration list for PBXNativeTarget "AnimaxUITests" */;
 			buildPhases = (
+				DEAC5B160FDFC4CCB9BA67E3 /* [CP] Check Pods Manifest.lock */,
 				8D6557A72D8CD8DD00E7A18C /* Sources */,
 				8D6557A82D8CD8DD00E7A18C /* Frameworks */,
 				8D6557A92D8CD8DD00E7A18C /* Resources */,
+				F965DE20D301B8BFFB83F3E8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,8 +214,6 @@
 				8D6557AE2D8CD8DD00E7A18C /* AnimaxUITests */,
 			);
 			name = AnimaxUITests;
-			packageProductDependencies = (
-			);
 			productName = AnimaxUITests;
 			productReference = 8D6557AB2D8CD8DD00E7A18C /* AnimaxUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -244,6 +286,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		982890BD9300B4F303F0A568 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Animax/Pods-Animax-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Animax/Pods-Animax-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Animax/Pods-Animax-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0B0C5E4884D5484F8680352 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Animax-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C62247F46E52E49A67590744 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnimaxTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DEAC5B160FDFC4CCB9BA67E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Animax-AnimaxUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F965DE20D301B8BFFB83F3E8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Animax-AnimaxUITests/Pods-Animax-AnimaxUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Animax-AnimaxUITests/Pods-Animax-AnimaxUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Animax-AnimaxUITests/Pods-Animax-AnimaxUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8D6557872D8CD8DD00E7A18C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -284,6 +429,7 @@
 /* Begin XCBuildConfiguration section */
 		8D6557B52D8CD8DD00E7A18C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62870750F8D43CA77A4BD627 /* Pods-Animax.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -291,7 +437,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9N9JA5WXC4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Animax/Info.plist;
+				INFOPLIST_FILE = Animax/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -315,6 +461,7 @@
 		};
 		8D6557B62D8CD8DD00E7A18C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78B2F7583593FA77145D243E /* Pods-Animax.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -322,7 +469,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9N9JA5WXC4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Animax/Info.plist;
+				INFOPLIST_FILE = Animax/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -381,7 +528,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -444,7 +591,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -465,6 +612,7 @@
 		};
 		8D6557BA2D8CD8DD00E7A18C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1A1052DDFCA72AF8EB01995 /* Pods-AnimaxTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -484,6 +632,7 @@
 		};
 		8D6557BB2D8CD8DD00E7A18C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4F91A004858F2DCD838071B /* Pods-AnimaxTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -503,6 +652,7 @@
 		};
 		8D6557BD2D8CD8DD00E7A18C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 617BB84B39D704D913349C9D /* Pods-Animax-AnimaxUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -520,6 +670,7 @@
 		};
 		8D6557BE2D8CD8DD00E7A18C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D218115999ECA64E830C7589 /* Pods-Animax-AnimaxUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
