@@ -11,25 +11,55 @@ final class LaunchScreenViewController: BaseViewController {
         return imageView
     }()
     
+    private let activeIndicatorImageView: UIImageView = {
+        let image = UIImageView(image: UIImage(imageLiteralResourceName: "active_indicator"))
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupSubviews()
+		setup()
 		output?.viewDidLoad()
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startAnimation()
+    }
 }
 
 private extension LaunchScreenViewController {
-    func setupSubviews() {
+    func setup() {
         view.addSubview(logoImageView)
+        view.addSubview(activeIndicatorImageView)
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 350),
             logoImageView.heightAnchor.constraint(equalToConstant: 160),
-            logoImageView.widthAnchor.constraint(equalToConstant: 160)
+            logoImageView.widthAnchor.constraint(equalToConstant: 160),
+            
+            activeIndicatorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activeIndicatorImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160),
+            activeIndicatorImageView.heightAnchor.constraint(equalToConstant: 60),
+            activeIndicatorImageView.widthAnchor.constraint(equalToConstant: 60)
         ])
         
         view.backgroundColor = .white
+        
+        startAnimation()
+    }
+    
+    func startAnimation() {
+        let rotation = CABasicAnimation(keyPath: "transform.rotation")
+        rotation.fromValue = 0
+        rotation.toValue = 2 * Double.pi
+        rotation.duration = 1.0
+        rotation.speed = 0.5
+        rotation.repeatCount = .infinity
+        
+        activeIndicatorImageView.layer.add(rotation, forKey: "spin")
     }
 }
     

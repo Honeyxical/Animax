@@ -13,7 +13,8 @@ protocol LaunchScreenViewInput: AnyObject {
 
 // View Output
 protocol LaunchScreenViewOutput {
-	func viewDidLoad()
+    func viewDidLoad()
+	func viewWillAppear()
 }
 
 // Interactor Input

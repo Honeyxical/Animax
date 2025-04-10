@@ -15,7 +15,9 @@ extension LaunchScreenPresenter: LaunchScreenModuleInput {}
 
 // MARK: View Output
 extension LaunchScreenPresenter: LaunchScreenViewOutput {
-	func viewDidLoad() {} 
+	func viewDidLoad() {}
+    
+    func viewWillAppear() {}
 }
 
 // MARK: Interactor Output
