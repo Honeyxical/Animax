@@ -1,9 +1,4 @@
-//
-//  SceneDelegate.swift
-//  Animax
-//
 //  Created by Илья Беников on 21.03.25.
-//
 
 import UIKit
 
@@ -16,8 +11,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        let navigationController = UINavigationController()
+        navigationController.setNavigationBarHidden(true, animated: false)
+        
+        let coordinator: CoordinatorProtocol = AppCoordinator(navigationController: navigationController, launchScreenAssembly: LaunchScreenAssembly())
+        coordinator.start(animated: false)
+        
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = LaunchScreenViewController()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 

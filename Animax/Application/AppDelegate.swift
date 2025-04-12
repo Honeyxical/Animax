@@ -1,9 +1,4 @@
-//
-//  AppDelegate.swift
-//  Animax
-//
 //  Created by Илья Беников on 21.03.25.
-//
 
 import UIKit
 

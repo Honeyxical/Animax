@@ -2,10 +2,10 @@
 
 typealias LaunchScreen = Module<LaunchScreenModuleInput, LaunchScreenModuleOutput>
 
-final class LaunchScreenAssembly: BaseAssemblyProtocol {
+final class LaunchScreenAssembly {
 	func build(
-		_ moduleOutput: LaunchScreenModuleOutput?,
-		_ routingHandler: LaunchScreenRoutingHandlingProtocol
+		moduleOutput: LaunchScreenModuleOutput?,
+		routingHandler: LaunchScreenRoutingHandlingProtocol
 	) -> LaunchScreen {
 		// View
 		let view = LaunchScreenViewController(withoutXib: true)
