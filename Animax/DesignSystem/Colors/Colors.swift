@@ -74,6 +74,19 @@ extension UIColor {
         static let yellow = UIColor(hexString: "#FACC15")
         static let cyan = UIColor(hexString: "#00BCD4")
     }
+    
+    struct Grayscale {
+        static let gray900 = UIColor(hexString: "#212121")
+        static let gray800 = UIColor(hexString: "#424242")
+        static let gray700 = UIColor(hexString: "#616161")
+        static let gray600 = UIColor(hexString: "#757575")
+        static let gray500 = UIColor(hexString: "#9E9E9E")
+        static let gray400 = UIColor(hexString: "#BDBDBD")
+        static let gray300 = UIColor(hexString: "#E0E0E0")
+        static let gray200 = UIColor(hexString: "#EEEEEE")
+        static let gray100 = UIColor(hexString: "#F5F5F5")
+        static let gray50 = UIColor(hexString: "#FAFAFA")
+    }
 }
 
 extension UIColor {
