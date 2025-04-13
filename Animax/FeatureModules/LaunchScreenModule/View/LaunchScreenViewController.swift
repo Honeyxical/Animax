@@ -17,8 +17,6 @@ final class LaunchScreenViewController: BaseViewController {
         return image
     }()
     
-    private let test = DSInputField()
-    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setup()
@@ -35,13 +33,8 @@ private extension LaunchScreenViewController {
     func setup() {
         view.addSubview(logoImageView)
         view.addSubview(activeIndicatorImageView)
-        view.addSubview(test)
         
         NSLayoutConstraint.activate([
-            test.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            test.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            test.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 350),
             logoImageView.heightAnchor.constraint(equalToConstant: 160),
@@ -56,16 +49,6 @@ private extension LaunchScreenViewController {
         view.backgroundColor = .white
         
         startAnimation()
-        test.translatesAutoresizingMaskIntoConstraints = false
-        test.configure(
-            with: DSInputField.ViewModel(
-                placeholder: "Placeholder",
-                text: nil,
-                leftSide: nil,
-                rightSide: nil,
-                state: .active
-            )
-        )
     }
     
     func startAnimation() {

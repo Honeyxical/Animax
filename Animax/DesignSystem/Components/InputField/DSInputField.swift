@@ -2,24 +2,38 @@
 
 import UIKit
 
-final class DSInputField: UIView {
-    struct ViewModel {
-        let placeholder: String
-        let text: String?
-        let leftSide: LeftSide?
-        let rightSide: RightSide?
-        let state: State
+public final class DSInputField: UIView {
+    public struct ViewModel {
+        public let placeholder: String
+        public let text: String?
+        public let leftSide: LeftSide?
+        public let rightSide: RightSide?
+        public let state: State
         
-        enum LeftSide {
+        public init(
+            placeholder: String,
+            text: String?,
+            leftSide: LeftSide?,
+            rightSide: RightSide?,
+            state: State
+        ) {
+            self.placeholder = placeholder
+            self.text = text
+            self.leftSide = leftSide
+            self.rightSide = rightSide
+            self.state = state
+        }
+        
+        public  enum LeftSide {
             case image(UIImage)
             case dropDown
         }
         
-        enum RightSide {
+        public enum RightSide {
             case image(UIImage)
         }
         
-        enum State {
+        public enum State {
             case active
             case `default`
             case fill
@@ -34,14 +48,18 @@ final class DSInputField: UIView {
     private lazy var textFieldLeftSideConstraint: NSLayoutConstraint = textField.leftAnchor.constraint(equalTo: leftAnchor, constant: 20)
     private lazy var textFieldRightSideConstraint: NSLayoutConstraint  = textField.rightAnchor.constraint(equalTo: rightAnchor, constant: -20)
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    func configure(with viewModel: ViewModel) {
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        CGSize(width: size.width, height: 56)
+    }
+    
+    public func configure(with viewModel: ViewModel) {
         textField.attributedPlaceholder = NSAttributedString(string: viewModel.placeholder, attributes: [.foregroundColor: UIColor.Grayscale.gray500])
         textField.text = viewModel.text
         

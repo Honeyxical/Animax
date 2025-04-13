@@ -13,10 +13,12 @@ target 'Animax' do
   target 'AnimaxTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'SnapshotTesting'
   end
 
   target 'AnimaxUITests' do
     # Pods for testing
+    pod 'SnapshotTesting'
   end
 
 end
