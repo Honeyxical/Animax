@@ -3,7 +3,7 @@
 import UIKit
 
 extension UIColor {
-    struct MainColors {
+    struct Primary {
         static let primary = UIColor(hexString: "#06C149")
         static let secondary = UIColor(hexString: "#FFD300")
         
@@ -66,13 +66,13 @@ extension UIColor {
     }
     
     struct Transparent {
-        static let green = UIColor(hexString: "#06C149")
-        static let red = UIColor(hexString: "#E21221")
-        static let purple = UIColor(hexString: "#7210FF")
-        static let blue = UIColor(hexString: "#335EF7")
-        static let orange = UIColor(hexString: "#FF9800")
-        static let yellow = UIColor(hexString: "#FACC15")
-        static let cyan = UIColor(hexString: "#00BCD4")
+        static let green = UIColor(hexString: "#06C149").withAlphaComponent(0.08)
+        static let red = UIColor(hexString: "#E21221").withAlphaComponent(0.08)
+        static let purple = UIColor(hexString: "#7210FF").withAlphaComponent(0.08)
+        static let blue = UIColor(hexString: "#335EF7").withAlphaComponent(0.08)
+        static let orange = UIColor(hexString: "#FF9800").withAlphaComponent(0.08)
+        static let yellow = UIColor(hexString: "#FACC15").withAlphaComponent(0.08)
+        static let cyan = UIColor(hexString: "#00BCD4").withAlphaComponent(0.08)
     }
     
     struct Grayscale {
