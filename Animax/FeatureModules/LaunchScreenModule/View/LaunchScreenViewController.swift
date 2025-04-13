@@ -6,13 +6,13 @@ final class LaunchScreenViewController: BaseViewController {
 	var output: LaunchScreenViewOutput?
 
     private let logoImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(imageLiteralResourceName: "logo"))
+        let imageView = UIImageView(image: UIImage.Main.logo)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private let activeIndicatorImageView: UIImageView = {
-        let image = UIImageView(image: UIImage(imageLiteralResourceName: "active_indicator"))
+        let image = UIImageView(image: UIImage.Main.activeIndicator)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
