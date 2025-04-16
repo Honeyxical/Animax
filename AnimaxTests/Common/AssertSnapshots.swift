@@ -4,11 +4,16 @@ import SnapshotTesting
 import XCTest
 
 extension XCTestCase {
+    /// Позволяет перезаписать все снапшоты
+    private static let isRecording: Bool = {
+        true
+    }()
+    
     func assertSnapshot(
         _ view: UIView,
         name: String,
         size: CGSize,
-        isRecording: Bool = false,
+        isRecording: Bool = isRecording,
         filePath: StaticString = #file,
         line: UInt = #line
     ) {

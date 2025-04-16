@@ -60,6 +60,9 @@ public final class DSInputField: UIView {
     }
     
     public func configure(with viewModel: ViewModel) {
+        textFieldLeftSideConstraint.isActive = true
+        textFieldRightSideConstraint.isActive = true
+        
         textField.attributedPlaceholder = NSAttributedString(string: viewModel.placeholder, attributes: [.foregroundColor: UIColor.Grayscale.gray500])
         textField.text = viewModel.text
         
@@ -110,7 +113,8 @@ private extension DSInputField {
         
         switch leftSide {
         case let .image(image):
-            configureLeftImageView(with: image)
+            createLeftImageView()
+            leftImageView?.image = image.withRenderingMode(.alwaysTemplate)
         case .dropDown:
             break
         }
@@ -121,12 +125,17 @@ private extension DSInputField {
         
         switch rightSide {
         case let .image(image):
-            configureRightImageView(with: image)
+            createRightImageView()
+            rightImageView?.image = image.withRenderingMode(.alwaysTemplate)
         }
     }
     
-    func configureRightImageView(with image: UIImage) {
-        let rightImageView = UIImageView(image: image)
+    func createRightImageView() {
+        guard rightImageView == nil else {
+            textFieldRightSideConstraint.isActive = false
+            return
+        }
+        let rightImageView = UIImageView()
         rightImageView.translatesAutoresizingMaskIntoConstraints = false
         self.rightImageView = rightImageView
         
@@ -143,8 +152,12 @@ private extension DSInputField {
         ])
     }
     
-    func configureLeftImageView(with image: UIImage) {
-        let leftImageView = UIImageView(image: image)
+    func createLeftImageView() {
+        guard leftImageView == nil else {
+            textFieldLeftSideConstraint.isActive = false
+            return
+        }
+        let leftImageView = UIImageView()
         leftImageView.translatesAutoresizingMaskIntoConstraints = false
         self.leftImageView = leftImageView
         
