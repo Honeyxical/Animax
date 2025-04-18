@@ -2,7 +2,7 @@
 
 import UIKit
 
-extension UIImage {
+public enum Iconography {
     struct Main {
         static let activeIndicator = UIImage(named: "active_indicator")
         static let welcomeBackground = UIImage(named: "welcome_background")

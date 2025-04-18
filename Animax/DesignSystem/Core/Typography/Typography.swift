@@ -2,7 +2,7 @@
 
 import UIKit
 
-extension UIFont {
+public enum Typography {
     struct Heading {
         static let heading1 = UIFont(name: "Urbanist-Bold", size: 48)
         static let heading2 = UIFont(name: "Urbanist-Bold", size: 40)
