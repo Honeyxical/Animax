@@ -4,14 +4,14 @@ import XCTest
 import SnapshotTesting
 import Animax
 
-final class DSInputFieldSnapshots: XCTestCase {
+final class DSTextFieldSnapshots: XCTestCase {
     func test_configure_whenActive() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -26,11 +26,11 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenDefault() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -45,11 +45,11 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenFill() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -64,11 +64,11 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenFill_withText() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: "Lorem Ipsum",
                 leftSide: nil,
@@ -83,15 +83,15 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andActive() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
-                leftSide: .image(.Bold.lock!),
-                rightSide: .image(.Bold.hide!),
+                leftSide: .image(Iconography.Bold.lock!),
+                rightSide: .image(Iconography.Bold.hide!),
                 state: .active
             )
         )
@@ -102,15 +102,15 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andDefault() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
-                leftSide: .image(.Bold.lock!),
-                rightSide: .image(.Bold.hide!),
+                leftSide: .image(Iconography.Bold.lock!),
+                rightSide: .image(Iconography.Bold.hide!),
                 state: .default
             )
         )
@@ -121,15 +121,15 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andFill() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
-                leftSide: .image(.Bold.lock!),
-                rightSide: .image(.Bold.hide!),
+                leftSide: .image(Iconography.Bold.lock!),
+                rightSide: .image(Iconography.Bold.hide!),
                 state: .fill
             )
         )
@@ -140,10 +140,10 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_reuse_whenWithImagesAfterHasNoImages() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -154,11 +154,11 @@ final class DSInputFieldSnapshots: XCTestCase {
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
-                leftSide: .image(.Bold.lock!),
-                rightSide: .image(.Bold.hide!),
+                leftSide: .image(Iconography.Bold.lock!),
+                rightSide: .image(Iconography.Bold.hide!),
                 state: .fill
             )
         )
@@ -169,20 +169,20 @@ final class DSInputFieldSnapshots: XCTestCase {
     
     func test_reuse_whenHasNoImagesAfterImages() {
         // arrange
-        let sut = DSInputField()
+        let sut = DSTextField()
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
-                leftSide: .image(.Bold.lock!),
-                rightSide: .image(.Bold.hide!),
+                leftSide: .image(Iconography.Bold.lock!),
+                rightSide: .image(Iconography.Bold.hide!),
                 state: .fill
             )
         )
         
         // act
         sut.configure(
-            with: DSInputField.ViewModel(
+            with: DSTextField.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,

@@ -2,7 +2,7 @@
 
 import UIKit
 
-public final class DSInputField: UIView {
+public final class DSTextField: UIView {
     public struct ViewModel {
         public let placeholder: String
         public let text: String?
@@ -63,7 +63,7 @@ public final class DSInputField: UIView {
         textFieldLeftSideConstraint.isActive = true
         textFieldRightSideConstraint.isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: viewModel.placeholder, attributes: [.foregroundColor: UIColor.Grayscale.gray500])
+        textField.attributedPlaceholder = NSAttributedString(string: viewModel.placeholder, attributes: [.foregroundColor: Colors.Grayscale.gray500])
         textField.text = viewModel.text
         
         setupLeftSide(with: viewModel.leftSide)
@@ -76,35 +76,35 @@ public final class DSInputField: UIView {
     }
 }
 
-private extension DSInputField {
+private extension DSTextField {
     func configureState(_ state: ViewModel.State) {
         switch state {
         case .active:
-            textField.font = .Body.Semibold.medium
-            textField.textColor = .Grayscale.gray900
+            textField.font = Typography.Body.Semibold.medium
+            textField.textColor = Colors.Grayscale.gray900
             
-            leftImageView?.tintColor = .Primary.primary
-            rightImageView?.tintColor = .Primary.primary
+            leftImageView?.tintColor = Colors.Primary.primary
+            rightImageView?.tintColor = Colors.Primary.primary
             
-            backgroundColor = .Transparent.green
+            backgroundColor = Colors.Transparent.green
             layer.borderWidth = 1
-            layer.borderColor = UIColor.Primary.primary.cgColor
+            layer.borderColor = Colors.Primary.primary.cgColor
         case .default:
-            textField.font = .Body.Regular.medium
-            textField.textColor = .Grayscale.gray500
+            textField.font = Typography.Body.Regular.medium
+            textField.textColor = Colors.Grayscale.gray500
             
-            leftImageView?.tintColor = .Grayscale.gray500
-            rightImageView?.tintColor = .Grayscale.gray500
+            leftImageView?.tintColor = Colors.Grayscale.gray500
+            rightImageView?.tintColor = Colors.Grayscale.gray500
             
-            backgroundColor = .Grayscale.gray50
+            backgroundColor = Colors.Grayscale.gray50
         case .fill:
-            textField.font = .Body.Semibold.medium
-            textField.textColor = .Grayscale.gray900
+            textField.font = Typography.Body.Semibold.medium
+            textField.textColor = Colors.Grayscale.gray900
             
-            leftImageView?.tintColor = .Grayscale.gray900
-            rightImageView?.tintColor = .Grayscale.gray900
+            leftImageView?.tintColor = Colors.Grayscale.gray900
+            rightImageView?.tintColor = Colors.Grayscale.gray900
             
-            backgroundColor = .Grayscale.gray50
+            backgroundColor = Colors.Grayscale.gray50
         }
     }
     
