@@ -2,4 +2,8 @@
 
 final class LaunchScreenRouter: BaseRouter<LaunchScreenRoutingHandlingProtocol> {}
 
-extension LaunchScreenRouter: LaunchScreenRouterInputProtocol {}
+extension LaunchScreenRouter: LaunchScreenRouterInputProtocol {
+    func routeToOnboarding() {
+        moduleRoutingHandler?.performRouteToOnboarding()
+    }
+}

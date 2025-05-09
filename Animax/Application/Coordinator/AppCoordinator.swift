@@ -20,4 +20,6 @@ final class AppCoordinator: CoordinatorProtocol, ParentCoordinatorProtocol {
     }
 }
 
-extension AppCoordinator: LaunchScreenModuleOutput, LaunchScreenRoutingHandlingProtocol {}
+extension AppCoordinator: LaunchScreenModuleOutput, LaunchScreenRoutingHandlingProtocol {
+    func performRouteToOnboarding() {}
+}
