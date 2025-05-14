@@ -10,7 +10,7 @@ extension LaunchScreenInteractor: LaunchScreenInteractorInput {
     func start() {
         output?.presentLoadingAnimation()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.output?.presentOnboarding()
         }
     }

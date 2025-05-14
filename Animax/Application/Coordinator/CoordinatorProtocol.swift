@@ -63,13 +63,13 @@ protocol ParentCoordinatorProtocol: CoordinatorProtocol {
      - Parameters:
         - child: A coordinator.
      */
-    func addChild(_ child: CoordinatorProtocol?)
+    func addChild(_ child: CoordinatorProtocol)
     /**
      Tells the parent coordinator that given coordinator is done and should be removed from the list of children.
      - Parameters:
         - child: A coordinator.
      */
-    func childDidFinish(_ child: CoordinatorProtocol?)
+    func removeChild(_ child: CoordinatorProtocol)
 }
 
 extension ParentCoordinatorProtocol {
@@ -79,10 +79,8 @@ extension ParentCoordinatorProtocol {
      - Parameters:
      - child: The child coordinator to be appended to the list.
      */
-    func addChild(_ child: CoordinatorProtocol?){
-        if let _child = child {
-            childCoordinators.append(_child)
-        }
+    func addChild(_ child: CoordinatorProtocol){
+        childCoordinators.append(child)
     }
     
     /**
@@ -90,13 +88,8 @@ extension ParentCoordinatorProtocol {
      - Parameters:
      - child: The child coordinator to be removed from the list.
      */
-    func childDidFinish(_ child: CoordinatorProtocol?) {
-        for (index, coordinator) in childCoordinators.enumerated() {
-            if coordinator === child {
-                childCoordinators.remove(at: index)
-                break
-            }
-        }
+    func removeChild(_ child: CoordinatorProtocol) {
+        childCoordinators.removeAll { $0 === child }
     }
 }
 

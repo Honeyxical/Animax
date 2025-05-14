@@ -14,7 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         navigationController.setNavigationBarHidden(true, animated: false)
         
-        let coordinator: CoordinatorProtocol = AppCoordinator(navigationController: navigationController, launchScreenAssembly: LaunchScreenAssembly())
+        let coordinator: CoordinatorProtocol = AppCoordinator(
+            navigationController: navigationController,
+            launchScreenAssembly: LaunchScreenAssembly(),
+            onboardingAssembly: OnboardingAssembly()
+        )
         coordinator.start(animated: false)
         
         window = UIWindow(windowScene: windowScene)

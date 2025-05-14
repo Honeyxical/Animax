@@ -1,8 +1,54 @@
 # Xcode
 DerivedData/
-*.xcuserdata
+*.xcworkspace
+!default.xcworkspace
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
+xcuserdata/
 *.xcuserstate
+*.xcscmblueprint
 
-# macOS system files
-.DS_Store
+# SwiftPM
+.build/
 
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+Carthage/Build/
+
+# SPM Cache
+Package.resolved
+
+# Fastlane
+fastlane/report.xml
+fastlane/screenshots
+fastlane/test_output
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*.lock
+*.tmp
+*.DS_Store
+
+# User data
+*.env
+*.xcbackups
+
+# Crashlytics / Firebase
+.crashlytics/
+firebase-debug.log
+
+# Preview device data
+PreviewContent/
+
+# IDEs
+.idea/
+.vscode/

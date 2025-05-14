@@ -4,20 +4,9 @@ import Foundation
 import UIKit
 
 public class BaseRouter<ROUTINGHANDLER> {
-	public var moduleRoutingHandler: ROUTINGHANDLER? {
-		get {
-			moduleRoutingHandlerWeakContainer?.value
-		} set {
-			if let value = newValue {
-				moduleRoutingHandlerWeakContainer = WeakContainer(value: value)
-			} else {
-				moduleRoutingHandlerWeakContainer = nil
-			}
-		}
-	}
+	public var moduleRoutingHandler: ROUTINGHANDLER?
 	
 	var viewController: UIViewController
-	private var moduleRoutingHandlerWeakContainer: WeakContainer<ROUTINGHANDLER>?
 	
 	public init(viewController: UIViewController) {
 		self.viewController = viewController

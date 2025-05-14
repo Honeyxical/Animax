@@ -2,24 +2,32 @@
 
 import UIKit
 
-final class AppCoordinator: CoordinatorProtocol, ParentCoordinatorProtocol {
-    var navigationController: UINavigationController
-    
-    var childCoordinators: [CoordinatorProtocol] = []
-    
+final class AppCoordinator: BaseCoordinator {
     private let launchScreenAssembly: LaunchScreenAssembly
+    private let onboardingAssembly: OnboardingAssembly
     
-    init(navigationController: UINavigationController, launchScreenAssembly: LaunchScreenAssembly) {
-        self.navigationController = navigationController
+    init(
+        navigationController: UINavigationController,
+        launchScreenAssembly: LaunchScreenAssembly,
+        onboardingAssembly: OnboardingAssembly
+    ) {
         self.launchScreenAssembly = launchScreenAssembly
+        self.onboardingAssembly = onboardingAssembly
+        
+        super.init(navigationController: navigationController)
     }
     
-    func start(animated: Bool) {
+    override func start(animated: Bool) {
         let module = launchScreenAssembly.build(moduleOutput: self, routingHandler: self)
         navigationController.pushViewController(module.view, animated: false)
     }
 }
 
 extension AppCoordinator: LaunchScreenModuleOutput, LaunchScreenRoutingHandlingProtocol {
-    func performRouteToOnboarding() {}
+    func performRouteToOnboarding() {
+        let module = onboardingAssembly.build(moduleOutput: self, routingHandler: self)
+        navigationController.pushViewController(module.view, animated: false)
+    }
 }
+
+extension AppCoordinator: OnboardingModuleOutput, OnboardingRoutingHandlingProtocol {}
