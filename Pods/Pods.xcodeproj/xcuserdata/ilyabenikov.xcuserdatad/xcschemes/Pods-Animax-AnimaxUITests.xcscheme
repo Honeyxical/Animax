@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "106073C99EEA745E60DB81A6CB16A536"
-               BuildableName = "Pods_Animax_AnimaxUITests.framework"
+               BuildableName = "libPods-Animax-AnimaxUITests.a"
                BlueprintName = "Pods-Animax-AnimaxUITests"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

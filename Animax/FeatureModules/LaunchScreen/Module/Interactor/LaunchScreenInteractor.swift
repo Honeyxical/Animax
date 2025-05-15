@@ -14,4 +14,6 @@ extension LaunchScreenInteractor: LaunchScreenInteractorInput {
             self?.output?.presentOnboarding()
         }
     }
+    
+// TODO: Сделать проверку на первый запуск и на авторизацию
 }

@@ -1,5 +1,7 @@
 //  Created on 09.05.25
 
+import UIKit
+
 // Module Input
 protocol OnboardingModuleInput {}
 
@@ -8,8 +10,11 @@ protocol OnboardingModuleOutput {}
 
 // View Input
 protocol OnboardingViewInput: AnyObject {
-	func setTitle(_ title: String)
 	func setOutput(_ output: OnboardingViewOutput)
+    func showBackgorundImage(_ image: UIImage)
+    func showStartButton(_ viewModel: DSButton.ViewModel)
+    func showTitleLabel(_ text: String)
+    func showDescriptionLabel(_ text: String)
 }
 
 // View Output
@@ -18,10 +23,14 @@ protocol OnboardingViewOutput {
 }
 
 // Interactor Input
-protocol OnboardingInteractorInput {}
+protocol OnboardingInteractorInput {
+    func start()
+}
 
 // Interactor Output
-protocol OnboardingInteractorOutput: AnyObject {}
+protocol OnboardingInteractorOutput: AnyObject {
+    func presentStaticData()
+}
 
 // Router
 protocol OnboardingRouterInputProtocol {}

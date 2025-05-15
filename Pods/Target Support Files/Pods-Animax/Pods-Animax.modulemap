@@ -1,4 +1,4 @@
-framework module Pods_Animax {
+module Pods_Animax {
   umbrella header "Pods-Animax-umbrella.h"
 
   export *
