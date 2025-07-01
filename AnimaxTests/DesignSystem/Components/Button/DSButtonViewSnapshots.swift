@@ -4,7 +4,7 @@ import XCTest
 import SnapshotTesting
 import Animax
 
-final class DDSButtonSnapshotsTests: XCTestCase {
+final class DDSButtonViewSnapshots: XCTestCase {
     func test_configure() {
         // arrange
         let sut = DSButton()

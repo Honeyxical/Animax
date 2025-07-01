@@ -12,7 +12,7 @@ protocol OnboardingModuleOutput {}
 protocol OnboardingViewInput: AnyObject {
 	func setOutput(_ output: OnboardingViewOutput)
     func showBackgorundImage(_ image: UIImage)
-    func showStartButton(_ viewModel: DSButton.ViewModel)
+    func showStartButton(_ viewModel: DSButtonView.ViewModel)
     func showTitleLabel(_ text: String)
     func showDescriptionLabel(_ text: String)
 }
