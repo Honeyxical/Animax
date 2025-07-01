@@ -4,14 +4,14 @@ import XCTest
 import SnapshotTesting
 import Animax
 
-final class DSTextFieldSnapshots: XCTestCase {
+final class DSTextFieldViewSnapshots: XCTestCase {
     func test_configure_whenActive() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -26,11 +26,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenDefault() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -45,11 +45,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenFill() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -64,11 +64,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenFill_withText() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: "Lorem Ipsum",
                 leftSide: nil,
@@ -83,11 +83,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andActive() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: .image(Iconography.Bold.lock!),
@@ -102,11 +102,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andDefault() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: .image(Iconography.Bold.lock!),
@@ -121,11 +121,11 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_configure_whenLeftAndRightImages_andFill() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: .image(Iconography.Bold.lock!),
@@ -140,10 +140,10 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_reuse_whenWithImagesAfterHasNoImages() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,
@@ -154,7 +154,7 @@ final class DSTextFieldSnapshots: XCTestCase {
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: .image(Iconography.Bold.lock!),
@@ -169,9 +169,9 @@ final class DSTextFieldSnapshots: XCTestCase {
     
     func test_reuse_whenHasNoImagesAfterImages() {
         // arrange
-        let sut = DSTextField()
+        let sut = DSTextFieldView()
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: .image(Iconography.Bold.lock!),
@@ -182,7 +182,7 @@ final class DSTextFieldSnapshots: XCTestCase {
         
         // act
         sut.configure(
-            with: DSTextField.ViewModel(
+            with: DSTextFieldView.ViewModel(
                 placeholder: "Placeholder",
                 text: nil,
                 leftSide: nil,

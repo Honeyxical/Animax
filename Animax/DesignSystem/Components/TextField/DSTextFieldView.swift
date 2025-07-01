@@ -2,7 +2,7 @@
 
 import UIKit
 
-public final class DSTextField: UIView {
+public final class DSTextFieldView: UIView {
     public struct ViewModel {
         public let placeholder: String
         public let text: String?
@@ -76,7 +76,7 @@ public final class DSTextField: UIView {
     }
 }
 
-private extension DSTextField {
+private extension DSTextFieldView {
     func configureState(_ state: ViewModel.State) {
         switch state {
         case .active:

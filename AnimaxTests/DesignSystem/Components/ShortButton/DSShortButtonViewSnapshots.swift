@@ -5,7 +5,7 @@ import SnapshotTesting
 
 @testable import Animax
 
-final class DSShortButtonSnapshots: XCTestCase {
+final class DSShortButtonViewSnapshots: XCTestCase {
     private var sut: DSShortButtonView!
     
     override func setUp() {

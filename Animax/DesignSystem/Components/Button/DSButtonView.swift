@@ -2,7 +2,7 @@
 
 import UIKit
 
-public final class DSButton: UIView {
+public final class DSButtonView: UIView {
     public struct ViewModel {
         public let title: String
         public let leftSide: LeftSide?
@@ -124,7 +124,7 @@ public final class DSButton: UIView {
     }
 }
 
-extension DSButton {
+extension DSButtonView {
     func setup() {
         addSubview(contentContainer)
         contentContainer.addSubview(textLabel)

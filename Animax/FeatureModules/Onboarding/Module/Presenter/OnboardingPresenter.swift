@@ -27,11 +27,11 @@ extension OnboardingPresenter: OnboardingInteractorOutput {
         view?.showTitleLabel("Welcome to Animax")
         view?.showDescriptionLabel("The best streaming anime app of the century to entertain you every day")
         view?.showStartButton(
-            DSButton.ViewModel(
+            DSButtonView.ViewModel(
                 title: "Get started",
                 leftSide: nil,
                 rightSide: nil,
-                configuration: DSButton.ViewModel.Configuration(
+                configuration: DSButtonView.ViewModel.Configuration(
                     titleColor: Colors.Others.white,
                     backgroundColor: Colors.Primary.primary,
                     roundingCorner: .rounded

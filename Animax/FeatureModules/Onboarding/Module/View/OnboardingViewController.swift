@@ -39,8 +39,8 @@ final class OnboardingViewController: BaseViewController {
         return label
     }()
     
-    private let startButton: DSButton = {
-        let button = DSButton()
+    private let startButton: DSButtonView = {
+        let button = DSButtonView()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -69,7 +69,7 @@ extension OnboardingViewController: OnboardingViewInput {
         descriptionLabel.text = text
     }
     
-    func showStartButton(_ viewModel: DSButton.ViewModel) {
+    func showStartButton(_ viewModel: DSButtonView.ViewModel) {
         startButton.configure(with: viewModel)
     }
 }
