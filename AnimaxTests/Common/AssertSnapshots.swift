@@ -17,12 +17,15 @@ extension XCTestCase {
         filePath: StaticString = #file,
         line: UInt = #line
     ) {
+        let className = String(describing: type(of: self))
+        let snapshotName = className + "_\(name)"
+        
         assertSnapshots(
             matching: view,
             as: [.image(precision: 0.98, size: size)],
             record: isRecording,
             file: filePath,
-            testName: name,
+            testName: snapshotName,
             line: line
         )
     }
