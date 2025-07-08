@@ -3,15 +3,7 @@
 import SnapKit
 
 final class DSCheckboxView: UIView {
-    struct ViewModel {
-        public let isSelected: Bool
-        
-        public init(isSelected: Bool) {
-            self.isSelected = isSelected
-        }
-    }
-    
-    private var checkmarkImageView: UIImageView!
+    private var checkmarkImageView: UIImageView?
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,11 +12,11 @@ final class DSCheckboxView: UIView {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    func configure(with viewModel: ViewModel) {
+    func configure(with viewModel: SelectedViewModel) {
         if viewModel.isSelected {
             createImageViewIfNeeded()
-            let config = UIImage.SymbolConfiguration(pointSize: 6, weight: .bold)
-            checkmarkImageView.image = UIImage(systemName: "checkmark", withConfiguration: config)?.withTintColor(Colors.Others.white, renderingMode: .alwaysOriginal)
+            let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .black)
+            checkmarkImageView?.image = UIImage(systemName: "checkmark", withConfiguration: config)?.withTintColor(Colors.Others.white, renderingMode: .alwaysOriginal)
             backgroundColor = Colors.Primary.primary
             layer.borderWidth = 0
         } else {
@@ -44,8 +36,8 @@ final class DSCheckboxView: UIView {
         addSubview(checkmarkImageView)
         
         checkmarkImageView.snp.makeConstraints { view in
-            view.horizontalEdges.equalToSuperview()
-            view.verticalEdges.equalToSuperview()
+            view.centerX.equalToSuperview()
+            view.centerY.equalToSuperview()
         }
         
         self.checkmarkImageView = checkmarkImageView
