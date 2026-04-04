@@ -29,6 +29,10 @@ extension AnimeDetailPresenter: AnimeDetailViewOutput {
         view?.showLoading(true)
         interactor.loadDetail(id: animeId)
     }
+
+    func didTapFavorite() {
+        interactor.toggleFavorite()
+    }
 }
 
 // MARK: Interactor Output
@@ -36,6 +40,7 @@ extension AnimeDetailPresenter: AnimeDetailInteractorOutput {
     func presentDetail(_ item: AnimeItem) {
         view?.showLoading(false)
         let viewModel = AnimeDetailViewModel(
+            id: item.malId,
             title: item.titleEnglish ?? item.title,
             imageURL: item.images.jpg.largeImageUrl ?? item.images.jpg.imageUrl,
             score: item.score.map { String(format: "%.1f", $0) } ?? "N/A",
@@ -52,5 +57,9 @@ extension AnimeDetailPresenter: AnimeDetailInteractorOutput {
     func presentError(_ message: String) {
         view?.showLoading(false)
         view?.showError(message)
+    }
+
+    func presentFavoriteStatus(isFavorite: Bool) {
+        view?.showFavoriteStatus(isFavorite: isFavorite)
     }
 }

@@ -2,9 +2,11 @@ typealias AnimeDetail = Module<AnimeDetailModuleInput, AnimeDetailModuleOutput>
 
 final class AnimeDetailAssembly {
     private let networkService: AnimeNetworkServiceProtocol
+    private let watchlistService: WatchlistServiceProtocol
 
-    init(networkService: AnimeNetworkServiceProtocol) {
+    init(networkService: AnimeNetworkServiceProtocol, watchlistService: WatchlistServiceProtocol) {
         self.networkService = networkService
+        self.watchlistService = watchlistService
     }
 
     func build(
@@ -13,7 +15,7 @@ final class AnimeDetailAssembly {
         routingHandler: AnimeDetailRoutingHandlingProtocol
     ) -> AnimeDetail {
         let view = AnimeDetailViewController(withoutXib: true)
-        let interactor = AnimeDetailInteractor(networkService: networkService)
+        let interactor = AnimeDetailInteractor(networkService: networkService, watchlistService: watchlistService)
         let router = AnimeDetailRouter(viewController: view)
         let presenter = AnimeDetailPresenter(
             animeId: animeId,

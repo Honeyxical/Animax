@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController.setNavigationBarHidden(true, animated: false)
 
         let networkService = AnimeNetworkService()
+        let watchlistService = WatchlistService.shared
 
         let coordinator: CoordinatorProtocol = AppCoordinator(
             navigationController: navigationController,
@@ -19,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             onboardingAssembly: OnboardingAssembly(),
             loginAssembly: LoginAssembly(),
             homeAssembly: HomeAssembly(networkService: networkService),
-            animeDetailAssembly: AnimeDetailAssembly(networkService: networkService)
+            animeDetailAssembly: AnimeDetailAssembly(networkService: networkService, watchlistService: watchlistService),
+            favoritesAssembly: FavoritesAssembly(watchlistService: watchlistService),
+            profileAssembly: ProfileAssembly(watchlistService: watchlistService)
         )
         coordinator.start(animated: false)
 

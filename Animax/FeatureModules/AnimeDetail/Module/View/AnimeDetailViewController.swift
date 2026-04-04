@@ -7,6 +7,15 @@ final class AnimeDetailViewController: BaseViewController {
 
     // MARK: - UI
 
+    private lazy var favoriteButton: UIBarButtonItem = {
+        UIBarButtonItem(
+            image: UIImage(systemName: "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(handleFavoriteTap)
+        )
+    }()
+
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
@@ -88,7 +97,12 @@ final class AnimeDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        navigationItem.rightBarButtonItem = favoriteButton
         output?.viewDidLoad()
+    }
+
+    @objc private func handleFavoriteTap() {
+        output?.didTapFavorite()
     }
 
     override func viewDidLayoutSubviews() {
@@ -131,6 +145,12 @@ extension AnimeDetailViewController: AnimeDetailViewInput {
         errorLabel.text = message
         errorLabel.isHidden = false
         scrollView.isHidden = true
+    }
+
+    func showFavoriteStatus(isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.image = UIImage(systemName: imageName)
+        favoriteButton.tintColor = isFavorite ? Colors.Warnings.error : Colors.Others.white
     }
 }
 
