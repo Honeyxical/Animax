@@ -1,11 +1,9 @@
-//  Created on 09.05.25
-
 import UIKit
 
 final class OnboardingPresenter: BasePresenter
 <
-OnboardingModuleOutput, 
-OnboardingInteractorInput, 
+OnboardingModuleOutput,
+OnboardingInteractorInput,
 OnboardingRouterInputProtocol,
 OnboardingViewInput
 > {}
@@ -35,7 +33,10 @@ extension OnboardingPresenter: OnboardingInteractorOutput {
                     titleColor: Colors.Others.white,
                     backgroundColor: Colors.Primary.primary,
                     roundingCorner: .rounded
-                )
+                ),
+                actionHandler: { [weak self] in
+                    self?.router.routeToLogin()
+                }
             )
         )
     }

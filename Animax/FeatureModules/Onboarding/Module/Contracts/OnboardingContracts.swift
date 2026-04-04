@@ -1,5 +1,3 @@
-//  Created on 09.05.25
-
 import UIKit
 
 // Module Input
@@ -33,7 +31,11 @@ protocol OnboardingInteractorOutput: AnyObject {
 }
 
 // Router
-protocol OnboardingRouterInputProtocol {}
+protocol OnboardingRouterInputProtocol {
+    func routeToLogin()
+}
 
 // Routing Handling
-protocol OnboardingRoutingHandlingProtocol {}
+protocol OnboardingRoutingHandlingProtocol {
+    func performRouteToLogin()
+}

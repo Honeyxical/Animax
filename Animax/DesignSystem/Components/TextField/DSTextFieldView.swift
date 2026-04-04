@@ -59,6 +59,10 @@ public final class DSTextFieldView: UIView {
         CGSize(width: size.width, height: 56)
     }
     
+    public var currentText: String? {
+        textField.text
+    }
+
     public func configure(with viewModel: ViewModel) {
         textFieldLeftSideConstraint.isActive = true
         textFieldRightSideConstraint.isActive = true
