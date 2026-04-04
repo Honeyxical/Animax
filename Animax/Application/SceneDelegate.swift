@@ -15,9 +15,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController.setNavigationBarHidden(true, animated: false)
         
         let coordinator: CoordinatorProtocol = AppCoordinator(
-            navigationController: navigationController,
+            homeCoordinatorAssembly: HomeCoordinatorAssembly(navigationController: navigationController),
             launchScreenAssembly: LaunchScreenAssembly(),
-            onboardingAssembly: OnboardingAssembly()
+            onboardingAssembly: OnboardingAssembly(),
+            navigationController: navigationController
         )
         coordinator.start(animated: false)
         

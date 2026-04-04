@@ -3,14 +3,18 @@
 import UIKit
 
 final class AppCoordinator: BaseCoordinator {
+    private let homeCoordinatorAssembly: HomeCoordinatorAssembly
+    
     private let launchScreenAssembly: LaunchScreenAssembly
     private let onboardingAssembly: OnboardingAssembly
     
     init(
-        navigationController: UINavigationController,
+        homeCoordinatorAssembly: HomeCoordinatorAssembly,
         launchScreenAssembly: LaunchScreenAssembly,
-        onboardingAssembly: OnboardingAssembly
+        onboardingAssembly: OnboardingAssembly,
+        navigationController: UINavigationController
     ) {
+        self.homeCoordinatorAssembly = homeCoordinatorAssembly
         self.launchScreenAssembly = launchScreenAssembly
         self.onboardingAssembly = onboardingAssembly
         
@@ -30,4 +34,10 @@ extension AppCoordinator: LaunchScreenModuleOutput, LaunchScreenRoutingHandlingP
     }
 }
 
-extension AppCoordinator: OnboardingModuleOutput, OnboardingRoutingHandlingProtocol {}
+extension AppCoordinator: OnboardingModuleOutput, OnboardingRoutingHandlingProtocol {
+    func prepareForRouteHome() {
+        let coordinator = homeCoordinatorAssembly.build()
+        addChild(coordinator)
+        coordinator.start(animated: false)
+    }
+}

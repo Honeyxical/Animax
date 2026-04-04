@@ -17,7 +17,7 @@ final class ___VARIABLE_moduleName___Assembly {
 		let router = ___VARIABLE_moduleName___Router(viewController: view)
 
 		// Presenter
-		let presenter = ___VARIABLE_moduleName___Presenter(interactor: interactor, routemr: router, view: view, moduleOutput: moduleOutput)
+		let presenter = ___VARIABLE_moduleName___Presenter(interactor: interactor, router: router, view: view, moduleOutput: moduleOutput)
 
 		// Dependency Setup
 		view.setOutput(presenter)

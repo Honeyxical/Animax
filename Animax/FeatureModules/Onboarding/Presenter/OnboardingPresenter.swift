@@ -15,8 +15,12 @@ extension OnboardingPresenter: OnboardingModuleInput {}
 
 // MARK: View Output
 extension OnboardingPresenter: OnboardingViewOutput {
-	func viewDidLoad() {
+    func viewDidLoad() {
         interactor.start()
+    }
+    
+    func didTapStart() {
+        interactor.openHome()
     }
 }
 
@@ -38,5 +42,9 @@ extension OnboardingPresenter: OnboardingInteractorOutput {
                 )
             )
         )
+    }
+    
+    func presentHome() {
+        router.routeHome()
     }
 }

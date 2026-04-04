@@ -10,12 +10,14 @@ final class OnboardingViewController: BaseViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
     private let gradientView: UIView = {
         let view = OnboardingGradientView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -103,6 +105,10 @@ private extension OnboardingViewController {
             view.leading.equalToSuperview().offset(24)
             view.trailing.equalToSuperview().offset(-24)
             view.bottom.equalToSuperview().offset(-162)
+        }
+        
+        startButton.addTapGesture { [weak self] in
+            self?.output?.didTapStart()
         }
     }
 }
