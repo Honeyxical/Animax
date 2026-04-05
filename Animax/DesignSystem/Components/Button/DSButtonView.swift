@@ -87,10 +87,6 @@ public final class DSButtonView: UIView {
         CGSize(width: size.width, height: 58)
     }
     
-    @objc private func handleTap() {
-        actionHandler?()
-    }
-
     public func configure(with viewModel: ViewModel) {
         actionHandler = viewModel.actionHandler
         textLabelLeftConstraint.isActive = true
@@ -137,6 +133,9 @@ extension DSButtonView {
         contentContainer.addSubview(textLabel)
         isUserInteractionEnabled = true
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
+        addTapGesture { [weak self] in
+            self?.actionHandler?()
+        }
 
         NSLayoutConstraint.activate([
             contentContainer.topAnchor.constraint(equalTo: topAnchor),

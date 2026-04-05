@@ -1,3 +1,5 @@
+import Foundation
+
 final class HomeInteractor {
     weak var output: HomeInteractorOutput?
     private let networkService: AnimeNetworkServiceProtocol
