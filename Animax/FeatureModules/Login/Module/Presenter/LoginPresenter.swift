@@ -18,6 +18,10 @@ extension LoginPresenter: LoginViewOutput {
         view?.setLoading(true)
         interactor.login(email: email ?? "", password: password ?? "")
     }
+
+    func didTapSignUp() {
+        router.routeToSignUp()
+    }
 }
 
 // MARK: Interactor Output

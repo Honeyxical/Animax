@@ -207,6 +207,7 @@ private extension AnimeDetailViewController {
         genresFlowView.snp.makeConstraints { make in
             make.top.equalTo(infoStackView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(30)
         }
         synopsisTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(genresFlowView.snp.bottom).offset(24)

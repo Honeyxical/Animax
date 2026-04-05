@@ -19,6 +19,7 @@ protocol LoginViewInput: AnyObject {
 protocol LoginViewOutput {
     func viewDidLoad()
     func didTapLogin(email: String?, password: String?)
+    func didTapSignUp()
 }
 
 // Interactor Input
@@ -35,6 +36,7 @@ protocol LoginInteractorOutput: AnyObject {
 // Router
 protocol LoginRouterInputProtocol {
     func routeToHome()
+    func routeToSignUp()
 }
 
 // Routing Handling
