@@ -1,7 +1,9 @@
+//  Created on 09.05.25
+
 final class OnboardingRouter: BaseRouter<OnboardingRoutingHandlingProtocol> {}
 
 extension OnboardingRouter: OnboardingRouterInputProtocol {
-    func routeToLogin() {
-        moduleRoutingHandler?.performRouteToLogin()
+    func routeHome() {
+        moduleRoutingHandler?.prepareForRouteHome()
     }
 }

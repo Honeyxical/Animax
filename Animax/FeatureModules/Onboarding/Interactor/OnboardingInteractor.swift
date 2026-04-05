@@ -8,4 +8,8 @@ extension OnboardingInteractor: OnboardingInteractorInput {
     func start() {
         output?.presentStaticData()
     }
+    
+    func openHome() {
+        output?.presentHome()
+    }
 }

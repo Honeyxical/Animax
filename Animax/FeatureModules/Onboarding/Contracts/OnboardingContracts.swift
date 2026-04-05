@@ -18,24 +18,27 @@ protocol OnboardingViewInput: AnyObject {
 // View Output
 protocol OnboardingViewOutput {
 	func viewDidLoad()
+    func didTapStart()
 }
 
 // Interactor Input
 protocol OnboardingInteractorInput {
     func start()
+    func openHome()
 }
 
 // Interactor Output
 protocol OnboardingInteractorOutput: AnyObject {
     func presentStaticData()
+    func presentHome()
 }
 
 // Router
 protocol OnboardingRouterInputProtocol {
-    func routeToLogin()
+    func routeHome()
 }
 
 // Routing Handling
 protocol OnboardingRoutingHandlingProtocol {
-    func performRouteToLogin()
+    func prepareForRouteHome()
 }

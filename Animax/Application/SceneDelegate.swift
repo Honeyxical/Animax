@@ -15,14 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let watchlistService = WatchlistService.shared
 
         let coordinator: CoordinatorProtocol = AppCoordinator(
-            navigationController: navigationController,
+            homeCoordinatorAssembly: HomeCoordinatorAssembly(
+                navigationController: navigationController,
+                networkService: networkService,
+                watchlistService: watchlistService
+            ),
             launchScreenAssembly: LaunchScreenAssembly(),
             onboardingAssembly: OnboardingAssembly(),
             loginAssembly: LoginAssembly(),
-            homeAssembly: HomeAssembly(networkService: networkService),
-            animeDetailAssembly: AnimeDetailAssembly(networkService: networkService, watchlistService: watchlistService),
-            favoritesAssembly: FavoritesAssembly(watchlistService: watchlistService),
-            profileAssembly: ProfileAssembly(watchlistService: watchlistService)
+            navigationController: navigationController
         )
         coordinator.start(animated: false)
 
