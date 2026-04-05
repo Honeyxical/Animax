@@ -39,7 +39,7 @@ extension OnboardingPresenter: OnboardingInteractorOutput {
                     roundingCorner: .rounded
                 ),
                 actionHandler: { [weak self] in
-                    self?.router.routeToLogin()
+                    self?.router.routeHome()
                 }
             )
         )

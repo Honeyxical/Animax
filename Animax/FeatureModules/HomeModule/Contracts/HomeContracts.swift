@@ -1,5 +1,7 @@
 //  Created on 22.11.25
 
+import UIKit
+
 // Module Input
 protocol HomeModuleInput {}
 
@@ -8,23 +10,52 @@ protocol HomeModuleOutput {}
 
 // View Input
 protocol HomeViewInput: AnyObject {
-	func setTitle(_ title: String)
-	func setOutput(_ output: HomeViewOutput)
+    func setOutput(_ output: HomeViewOutput)
+    func showSections(_ sections: [HomeSectionViewModel])
+    func showLoading(_ isLoading: Bool)
+    func showError(_ message: String)
 }
 
 // View Output
 protocol HomeViewOutput {
-	func viewDidLoad()
+    func viewDidLoad()
+    func didSelectAnime(id: Int)
+    func didSearchAnime(query: String)
 }
 
 // Interactor Input
-protocol HomeInteractorInput {}
+protocol HomeInteractorInput {
+    func loadContent()
+    func searchAnime(query: String)
+}
 
 // Interactor Output
-protocol HomeInteractorOutput: AnyObject {}
+protocol HomeInteractorOutput: AnyObject {
+    func presentSections(_ sections: [HomeSectionViewModel])
+    func presentLoading(_ isLoading: Bool)
+    func presentError(_ message: String)
+}
 
 // Router
-protocol HomeRouterInputProtocol {}
+protocol HomeRouterInputProtocol {
+    func routeToAnimeDetail(id: Int)
+}
 
 // Routing Handling
-protocol HomeRoutingHandlingProtocol {}
+protocol HomeRoutingHandlingProtocol {
+    func performRouteToAnimeDetail(id: Int)
+}
+
+// View Models
+struct HomeSectionViewModel {
+    let title: String
+    let items: [AnimeCardViewModel]
+}
+
+struct AnimeCardViewModel {
+    let id: Int
+    let title: String
+    let imageURL: String?
+    let score: String
+    let genres: String
+}

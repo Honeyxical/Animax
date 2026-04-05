@@ -3,27 +3,25 @@
 typealias Home = Module<HomeModuleInput, HomeModuleOutput>
 
 final class HomeAssembly {
-	func build(
-		moduleOutput: HomeModuleOutput?,
-		routingHandler: HomeRoutingHandlingProtocol
-	) -> Home {
-		// View
-		let view = HomeViewController(withoutXib: true)
+    private let networkService: AnimeNetworkServiceProtocol
 
-		// Interactor
-		let interactor = HomeInteractor()
+    init(networkService: AnimeNetworkServiceProtocol) {
+        self.networkService = networkService
+    }
 
-		// Router
-		let router = HomeRouter(viewController: view)
-
-		// Presenter
+    func build(
+        moduleOutput: HomeModuleOutput?,
+        routingHandler: HomeRoutingHandlingProtocol
+    ) -> Home {
+        let view = HomeViewController(withoutXib: true)
+        let interactor = HomeInteractor(networkService: networkService)
+        let router = HomeRouter(viewController: view)
         let presenter = HomePresenter(interactor: interactor, router: router, view: view, moduleOutput: moduleOutput)
 
-		// Dependency Setup
-		view.setOutput(presenter)
-		interactor.output = presenter
-		router.moduleRoutingHandler = routingHandler
+        view.setOutput(presenter)
+        interactor.output = presenter
+        router.moduleRoutingHandler = routingHandler
 
-		return Module(view: view, input: presenter, output: moduleOutput)
-	}
+        return Module(view: view, input: presenter, output: moduleOutput)
+    }
 }
