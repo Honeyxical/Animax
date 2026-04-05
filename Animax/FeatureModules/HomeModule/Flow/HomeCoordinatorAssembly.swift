@@ -17,7 +17,7 @@ final class HomeCoordinatorAssembly {
         self.watchlistService = watchlistService
     }
 
-    func build() -> BaseCoordinator {
+    func build() -> HomeCoordinator {
         HomeCoordinator(
             homeAssembly: HomeAssembly(networkService: networkService),
             animeDetailAssembly: AnimeDetailAssembly(networkService: networkService, watchlistService: watchlistService),

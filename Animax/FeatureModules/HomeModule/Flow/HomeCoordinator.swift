@@ -8,6 +8,8 @@ final class HomeCoordinator: BaseCoordinator {
     private let favoritesAssembly: FavoritesAssembly
     private let profileAssembly: ProfileAssembly
 
+    var onLogout: (() -> Void)?
+
     private weak var tabBarController: UITabBarController?
 
     init(
@@ -49,11 +51,7 @@ extension HomeCoordinator: FavoritesModuleOutput, FavoritesRoutingHandlingProtoc
 extension HomeCoordinator: ProfileModuleOutput, ProfileRoutingHandlingProtocol {
     func performLogout() {
         tabBarController = nil
-        navigationController.setNavigationBarHidden(true, animated: false)
-        // Signal parent coordinator to handle logout
-        (navigationController.viewControllers.first as? UITabBarController)
-            .flatMap { _ in nil as UIViewController? }
-        navigationController.popToRootViewController(animated: true)
+        onLogout?()
     }
 }
 

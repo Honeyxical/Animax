@@ -54,6 +54,22 @@ extension AppCoordinator: LoginModuleOutput, LoginRoutingHandlingProtocol {
     func performRouteToHome() {
         let coordinator = homeCoordinatorAssembly.build()
         addChild(coordinator)
+        coordinator.onLogout = { [weak self, weak coordinator] in
+            if let coordinator = coordinator {
+                self?.removeChild(coordinator)
+            }
+            self?.showLogin()
+        }
         coordinator.start(animated: true)
+    }
+}
+
+// MARK: - Private
+
+private extension AppCoordinator {
+    func showLogin() {
+        let module = loginAssembly.build(moduleOutput: self, routingHandler: self)
+        navigationController.setNavigationBarHidden(false, animated: false)
+        navigationController.setViewControllers([module.view], animated: true)
     }
 }
