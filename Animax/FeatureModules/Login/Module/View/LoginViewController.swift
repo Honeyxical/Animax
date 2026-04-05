@@ -94,10 +94,22 @@ final class LoginViewController: BaseViewController {
 
     private let formTitleLabel: UILabel = {
         let l = UILabel()
-        l.text = "Sign In"
+        l.text = "Login to Your Account"
         l.font = Typography.Heading.heading3
         l.textColor = Colors.Grayscale.gray900
         l.textAlignment = .center
+        l.numberOfLines = 2
+        return l
+    }()
+
+    private lazy var forgotPasswordLabel: UILabel = {
+        let l = UILabel()
+        l.text = "Forgot the password?"
+        l.font = Typography.Body.Semibold.medium
+        l.textColor = Colors.Primary.primary
+        l.textAlignment = .center
+        l.isUserInteractionEnabled = true
+        l.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleForgotPassword)))
         return l
     }()
 
@@ -187,7 +199,7 @@ final class LoginViewController: BaseViewController {
         return ai
     }()
 
-    private lazy var formOrDivider = makeOrDivider()
+    private lazy var formOrDivider = makeOrDivider(text: "or continue with")
 
     private lazy var socialIconsRow: UIStackView = makeSocialIconsRow()
 
@@ -250,6 +262,16 @@ private extension LoginViewController {
 
     @objc func handleSignUp() {
         output?.didTapSignUp()
+    }
+
+    @objc func handleForgotPassword() {
+        let alert = UIAlertController(
+            title: "Forgot Password",
+            message: "Password recovery is not available in this version.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
     @objc func togglePasswordVisibility() {
@@ -392,6 +414,7 @@ private extension LoginViewController {
         formContentView.addSubview(formErrorLabel)
         formContentView.addSubview(signInButton)
         formContentView.addSubview(formActivityIndicator)
+        formContentView.addSubview(forgotPasswordLabel)
         formContentView.addSubview(formOrDivider)
         formContentView.addSubview(socialIconsRow)
         formContentView.addSubview(formSignUpLabel)
@@ -476,8 +499,12 @@ private extension LoginViewController {
         formActivityIndicator.snp.makeConstraints { make in
             make.center.equalTo(signInButton)
         }
+        forgotPasswordLabel.snp.makeConstraints { make in
+            make.top.equalTo(signInButton.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
         formOrDivider.snp.makeConstraints { make in
-            make.top.equalTo(signInButton.snp.bottom).offset(28)
+            make.top.equalTo(forgotPasswordLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(24)
             make.height.equalTo(20)
         }
@@ -534,14 +561,14 @@ private extension LoginViewController {
         return container
     }
 
-    func makeOrDivider() -> UIView {
+    func makeOrDivider(text: String = "or") -> UIView {
         let container = UIView()
         let leftLine = UIView()
         leftLine.backgroundColor = Colors.Grayscale.gray200
         let rightLine = UIView()
         rightLine.backgroundColor = Colors.Grayscale.gray200
         let label = UILabel()
-        label.text = "or"
+        label.text = text
         label.font = Typography.Body.Regular.medium
         label.textColor = Colors.Grayscale.gray500
         label.textAlignment = .center
@@ -552,7 +579,6 @@ private extension LoginViewController {
 
         label.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalTo(30)
         }
         leftLine.snp.makeConstraints { make in
             make.leading.equalToSuperview()

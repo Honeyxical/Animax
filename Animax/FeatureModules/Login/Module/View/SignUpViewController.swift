@@ -140,7 +140,11 @@ final class SignUpViewController: BaseViewController {
 
 private extension SignUpViewController {
     @objc func handleSignUp() {
-        onSignUpSuccess?()
+        let interestsVC = InterestsViewController()
+        interestsVC.onContinue = { [weak self] in
+            self?.onSignUpSuccess?()
+        }
+        navigationController?.pushViewController(interestsVC, animated: true)
     }
 
     @objc func handleSignIn() {
