@@ -47,9 +47,16 @@ protocol HomeRoutingHandlingProtocol {
 }
 
 // View Models
+
+enum HomeSectionStyle {
+    case topHits    // horizontal list rows with rank marker (Anime Top Hits design)
+    case cards      // horizontal scroll cards (Anime Cards design)
+}
+
 struct HomeSectionViewModel {
     let title: String
     let items: [AnimeCardViewModel]
+    let style: HomeSectionStyle
 }
 
 struct AnimeCardViewModel {

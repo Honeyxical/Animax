@@ -11,19 +11,20 @@ final class AnimeCardCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 12
+        iv.layer.cornerRadius = 16
         iv.backgroundColor = Colors.Grayscale.gray200
         return iv
     }()
 
-    private let scoreContainer: UIView = {
+    // Rank badge top-left (matches design: green rounded square with number)
+    private let rankBadge: UIView = {
         let v = UIView()
         v.backgroundColor = Colors.Primary.primary
         v.layer.cornerRadius = 8
         return v
     }()
 
-    private let scoreLabel: UILabel = {
+    private let rankLabel: UILabel = {
         let label = UILabel()
         label.font = Typography.Body.Bold.xSmall
         label.textColor = Colors.Others.white
@@ -64,10 +65,17 @@ final class AnimeCardCell: UICollectionViewCell {
 
     // MARK: - Configure
 
-    func configure(with viewModel: AnimeCardViewModel) {
+    func configure(with viewModel: AnimeCardViewModel, rank: Int? = nil) {
         titleLabel.text = viewModel.title
         genreLabel.text = viewModel.genres
-        scoreLabel.text = "⭐ \(viewModel.score)"
+
+        if let rank = rank {
+            rankLabel.text = String(format: "%02d", rank)
+            rankBadge.isHidden = false
+        } else {
+            rankLabel.text = viewModel.score.isEmpty ? "N/A" : "⭐ \(viewModel.score)"
+            rankBadge.isHidden = viewModel.score.isEmpty
+        }
 
         if let urlString = viewModel.imageURL, let url = URL(string: urlString) {
             posterImageView.kf.setImage(with: url)
@@ -80,8 +88,8 @@ final class AnimeCardCell: UICollectionViewCell {
 private extension AnimeCardCell {
     func setup() {
         contentView.addSubview(posterImageView)
-        contentView.addSubview(scoreContainer)
-        scoreContainer.addSubview(scoreLabel)
+        contentView.addSubview(rankBadge)
+        rankBadge.addSubview(rankLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(genreLabel)
 
@@ -89,12 +97,12 @@ private extension AnimeCardCell {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(180)
         }
-        scoreContainer.snp.makeConstraints { make in
-            make.top.equalTo(posterImageView).offset(8)
-            make.trailing.equalTo(posterImageView).offset(-8)
+        // Badge top-LEFT per design
+        rankBadge.snp.makeConstraints { make in
+            make.top.leading.equalTo(posterImageView).inset(8)
         }
-        scoreLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 4, left: 6, bottom: 4, right: 6))
+        rankLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
         }
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(posterImageView.snp.bottom).offset(8)

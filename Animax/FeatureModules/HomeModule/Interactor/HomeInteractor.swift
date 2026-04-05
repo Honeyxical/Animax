@@ -49,7 +49,7 @@ extension HomeInteractor: HomeInteractorInput {
             switch result {
             case let .success(items):
                 let cards = items.map { AnimeCardViewModel(from: $0) }
-                let section = HomeSectionViewModel(title: "Search Results", items: cards)
+                let section = HomeSectionViewModel(title: "Search Results", items: cards, style: .cards)
                 self?.output?.presentSections([section])
             case let .failure(error):
                 self?.output?.presentError(error.localizedDescription)
@@ -61,14 +61,16 @@ extension HomeInteractor: HomeInteractorInput {
         var sections: [HomeSectionViewModel] = []
         if !top.isEmpty {
             sections.append(HomeSectionViewModel(
-                title: "Top Rated",
-                items: top.map { AnimeCardViewModel(from: $0) }
+                title: "Top Hits",
+                items: top.map { AnimeCardViewModel(from: $0) },
+                style: .topHits
             ))
         }
         if !seasonal.isEmpty {
             sections.append(HomeSectionViewModel(
                 title: "This Season",
-                items: seasonal.map { AnimeCardViewModel(from: $0) }
+                items: seasonal.map { AnimeCardViewModel(from: $0) },
+                style: .cards
             ))
         }
         return sections

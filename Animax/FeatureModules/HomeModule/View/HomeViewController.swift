@@ -10,11 +10,12 @@ final class HomeViewController: BaseViewController {
 
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
-        cv.backgroundColor = Colors.Others.white
+        cv.backgroundColor = Colors.Grayscale.gray50
         cv.showsVerticalScrollIndicator = false
         cv.dataSource = self
         cv.delegate = self
         cv.register(AnimeCardCell.self, forCellWithReuseIdentifier: AnimeCardCell.reuseIdentifier)
+        cv.register(AnimeTopHitsCell.self, forCellWithReuseIdentifier: AnimeTopHitsCell.reuseIdentifier)
         cv.register(
             HomeSectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -67,6 +68,7 @@ extension HomeViewController: HomeViewInput {
     func showSections(_ sections: [HomeSectionViewModel]) {
         self.sections = sections
         errorLabel.isHidden = true
+        collectionView.isHidden = false
         collectionView.reloadData()
     }
 
@@ -99,12 +101,29 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: AnimeCardCell.reuseIdentifier,
-            for: indexPath
-        ) as! AnimeCardCell
-        cell.configure(with: sections[indexPath.section].items[indexPath.item])
-        return cell
+        let section = sections[indexPath.section]
+        let item = section.items[indexPath.item]
+
+        switch section.style {
+        case .topHits:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AnimeTopHitsCell.reuseIdentifier,
+                for: indexPath
+            ) as! AnimeTopHitsCell
+            cell.configure(with: item, rank: indexPath.item + 1)
+            cell.onAddToList = { [weak self] in
+                self?.output?.didSelectAnime(id: item.id)
+            }
+            return cell
+
+        case .cards:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AnimeCardCell.reuseIdentifier,
+                for: indexPath
+            ) as! AnimeCardCell
+            cell.configure(with: item)
+            return cell
+        }
     }
 
     func collectionView(
@@ -150,7 +169,7 @@ extension HomeViewController: UISearchBarDelegate {
 
 private extension HomeViewController {
     func setup() {
-        view.backgroundColor = Colors.Others.white
+        view.backgroundColor = Colors.Grayscale.gray50
         navigationItem.titleView = searchBar
         searchBar.delegate = self
 
@@ -171,41 +190,75 @@ private extension HomeViewController {
     }
 
     func makeLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { _, _ in
-            // Item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .absolute(140),
-                heightDimension: .absolute(240)
-            )
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            // Group (horizontal scroll)
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .absolute(140),
-                heightDimension: .absolute(240)
-            )
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-            section.interGroupSpacing = 16
-            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 24, bottom: 24, trailing: 24)
-
-            // Header
-            let headerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(44)
-            )
-            let header = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: UICollectionView.elementKindSectionHeader,
-                alignment: .top
-            )
-            section.boundarySupplementaryItems = [header]
-
-            return section
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            guard let self = self, sectionIndex < self.sections.count else {
+                return self?.cardsSection()
+            }
+            switch self.sections[sectionIndex].style {
+            case .topHits:
+                return self.topHitsSection()
+            case .cards:
+                return self.cardsSection()
+            }
         }
-        return layout
+    }
+
+    func topHitsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(140)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.88),
+            heightDimension: .absolute(140 * 3 + 8 * 2)
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 3
+        )
+        group.interItemSpacing = .fixed(8)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 24, bottom: 24, trailing: 24)
+        section.boundarySupplementaryItems = [sectionHeader()]
+        return section
+    }
+
+    func cardsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(140),
+            heightDimension: .absolute(240)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(140),
+            heightDimension: .absolute(240)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 24, bottom: 24, trailing: 24)
+        section.boundarySupplementaryItems = [sectionHeader()]
+        return section
+    }
+
+    func sectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(44)
+        )
+        return NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
     }
 }
