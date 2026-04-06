@@ -80,11 +80,35 @@ final class InterestsViewController: BaseViewController {
 
 private extension InterestsViewController {
     @objc func handleSkip() {
-        onContinue?()
+        pushFillProfile()
     }
 
     @objc func handleContinue() {
-        onContinue?()
+        pushFillProfile()
+    }
+
+    func pushFillProfile() {
+        let vc = FillProfileViewController()
+        vc.onContinue = { [weak self] in
+            self?.pushCreatePin()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func pushCreatePin() {
+        let vc = CreatePinViewController()
+        vc.onContinue = { [weak self] in
+            self?.pushFingerprint()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func pushFingerprint() {
+        let vc = FingerprintViewController()
+        vc.onComplete = { [weak self] in
+            self?.onContinue?()
+        }
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func handleTagTap(_ sender: UIButton) {

@@ -8,6 +8,7 @@ final class OnboardingViewController: BaseViewController {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.isUserInteractionEnabled = true
         return iv
     }()
 
