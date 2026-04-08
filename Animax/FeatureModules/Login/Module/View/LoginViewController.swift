@@ -265,13 +265,8 @@ private extension LoginViewController {
     }
 
     @objc func handleForgotPassword() {
-        let alert = UIAlertController(
-            title: "Forgot Password",
-            message: "Password recovery is not available in this version.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        let vc = ForgotPasswordViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func togglePasswordVisibility() {
