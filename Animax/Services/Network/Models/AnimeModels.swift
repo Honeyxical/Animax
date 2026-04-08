@@ -20,12 +20,13 @@ struct AnimeItem: Decodable {
     let images: AnimeImages
     let rating: String?
     let type: String?
+    let year: Int?
 
     enum CodingKeys: String, CodingKey {
         case malId = "mal_id"
         case title
         case titleEnglish = "title_english"
-        case synopsis, score, episodes, status, genres, images, rating, type
+        case synopsis, score, episodes, status, genres, images, rating, type, year
     }
 }
 
