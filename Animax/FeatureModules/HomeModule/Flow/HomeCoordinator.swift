@@ -40,6 +40,30 @@ extension HomeCoordinator: HomeModuleOutput, HomeRoutingHandlingProtocol {
     func performRouteToAnimeDetail(id: Int) {
         pushAnimeDetail(id: id)
     }
+
+    func performRouteToTopHits(items: [AnimeCardViewModel]) {
+        guard let selectedNav = tabBarController?.selectedViewController as? UINavigationController else { return }
+        let vc = TopHitsAnimeViewController(items: items)
+        selectedNav.pushViewController(vc, animated: true)
+    }
+
+    func performRouteToNewEpisodes(items: [AnimeCardViewModel]) {
+        guard let selectedNav = tabBarController?.selectedViewController as? UINavigationController else { return }
+        let vc = NewEpisodeReleasesViewController(items: items)
+        selectedNav.pushViewController(vc, animated: true)
+    }
+
+    func performRouteToSearch() {
+        guard let selectedNav = tabBarController?.selectedViewController as? UINavigationController else { return }
+        let vc = SearchViewController()
+        selectedNav.pushViewController(vc, animated: true)
+    }
+
+    func performRouteToNotifications() {
+        guard let selectedNav = tabBarController?.selectedViewController as? UINavigationController else { return }
+        let vc = NotificationsViewController()
+        selectedNav.pushViewController(vc, animated: true)
+    }
 }
 
 extension HomeCoordinator: FavoritesModuleOutput, FavoritesRoutingHandlingProtocol {
@@ -64,10 +88,18 @@ private extension HomeCoordinator {
         let tabBar = MainTabBarController()
 
         let homeNavController = buildHomeTab()
-        let favoritesNavController = buildFavoritesTab()
+        let releaseCalendarNavController = buildReleaseCalendarTab()
+        let myListNavController = buildMyListTab()
+        let downloadNavController = buildDownloadTab()
         let profileNavController = buildProfileTab()
 
-        tabBar.viewControllers = [homeNavController, favoritesNavController, profileNavController]
+        tabBar.viewControllers = [
+            homeNavController,
+            releaseCalendarNavController,
+            myListNavController,
+            downloadNavController,
+            profileNavController
+        ]
         return tabBar
     }
 
@@ -82,13 +114,35 @@ private extension HomeCoordinator {
         return nav
     }
 
-    func buildFavoritesTab() -> UINavigationController {
+    func buildReleaseCalendarTab() -> UINavigationController {
+        let vc = ReleaseCalendarViewController(withoutXib: true)
+        let nav = makeStyledNavController(root: vc)
+        nav.tabBarItem = UITabBarItem(
+            title: "Release Ca...",
+            image: UIImage(systemName: "calendar.badge.clock"),
+            selectedImage: UIImage(systemName: "calendar.badge.clock")
+        )
+        return nav
+    }
+
+    func buildMyListTab() -> UINavigationController {
         let module = favoritesAssembly.build(moduleOutput: self, routingHandler: self)
         let nav = makeStyledNavController(root: module.view)
         nav.tabBarItem = UITabBarItem(
-            title: "Favourites",
-            image: UIImage(systemName: "heart"),
-            selectedImage: UIImage(systemName: "heart.fill")
+            title: "My List",
+            image: UIImage(systemName: "bookmark"),
+            selectedImage: UIImage(systemName: "bookmark.fill")
+        )
+        return nav
+    }
+
+    func buildDownloadTab() -> UINavigationController {
+        let vc = DownloadViewController(withoutXib: true)
+        let nav = makeStyledNavController(root: vc)
+        nav.tabBarItem = UITabBarItem(
+            title: "Download",
+            image: UIImage(systemName: "arrow.down.to.line.alt"),
+            selectedImage: UIImage(systemName: "arrow.down.to.line.alt")
         )
         return nav
     }
@@ -108,14 +162,14 @@ private extension HomeCoordinator {
         let nav = UINavigationController(rootViewController: root)
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Colors.Dark.dark1
+        appearance.backgroundColor = Colors.Others.white
         appearance.titleTextAttributes = [
-            .foregroundColor: Colors.Others.white,
+            .foregroundColor: Colors.Grayscale.gray900,
             .font: Typography.Heading.heading6 as Any
         ]
         nav.navigationBar.standardAppearance = appearance
         nav.navigationBar.scrollEdgeAppearance = appearance
-        nav.navigationBar.tintColor = Colors.Others.white
+        nav.navigationBar.tintColor = Colors.Grayscale.gray900
         return nav
     }
 

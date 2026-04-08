@@ -32,7 +32,7 @@ extension FavoritesPresenter: FavoritesInteractorOutput {
             view?.showEmptyState()
         } else {
             let cards = items.map {
-                AnimeCardViewModel(id: $0.id, title: $0.title, imageURL: $0.imageURL, score: $0.score, genres: $0.genres)
+                AnimeCardViewModel(id: $0.id, title: $0.title, imageURL: $0.imageURL, score: $0.score, genres: $0.genres, year: "", episode: nil)
             }
             view?.showFavorites(cards)
         }

@@ -61,16 +61,26 @@ extension HomeInteractor: HomeInteractorInput {
 
     private func buildSections(top: [AnimeItem], seasonal: [AnimeItem]) -> [HomeSectionViewModel] {
         var sections: [HomeSectionViewModel] = []
+
+        // Hero section: first top anime item
+        if let heroItem = top.first {
+            sections.append(HomeSectionViewModel(
+                title: "",
+                items: [AnimeCardViewModel(from: heroItem)],
+                style: .hero
+            ))
+        }
+
         if !top.isEmpty {
             sections.append(HomeSectionViewModel(
-                title: "Top Hits",
+                title: "Top Hits Anime",
                 items: top.map { AnimeCardViewModel(from: $0) },
                 style: .topHits
             ))
         }
         if !seasonal.isEmpty {
             sections.append(HomeSectionViewModel(
-                title: "This Season",
+                title: "New Episode Releases",
                 items: seasonal.map { AnimeCardViewModel(from: $0) },
                 style: .cards
             ))
@@ -85,6 +95,12 @@ private extension AnimeCardViewModel {
         title = item.titleEnglish ?? item.title
         imageURL = item.images.jpg.largeImageUrl ?? item.images.jpg.imageUrl
         score = item.score.map { String(format: "%.1f", $0) } ?? "N/A"
-        genres = item.genres.prefix(2).map { $0.name }.joined(separator: " · ")
+        genres = item.genres.prefix(3).map { $0.name }.joined(separator: ", ")
+        year = item.year.map { String($0) } ?? ""
+        if item.status == "Currently Airing", let eps = item.episodes {
+            episode = "Episode \(eps)"
+        } else {
+            episode = nil
+        }
     }
 }

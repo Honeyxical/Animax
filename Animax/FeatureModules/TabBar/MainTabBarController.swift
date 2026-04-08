@@ -10,7 +10,7 @@ final class MainTabBarController: UITabBarController {
     private func styleTabBar() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Colors.Dark.dark1
+        appearance.backgroundColor = Colors.Others.white
 
         let normalAttrs: [NSAttributedString.Key: Any] = [
             .foregroundColor: Colors.Grayscale.gray500,

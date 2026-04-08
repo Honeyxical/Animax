@@ -23,6 +23,22 @@ extension HomePresenter: HomeViewOutput {
     func didSearchAnime(query: String) {
         interactor.searchAnime(query: query)
     }
+
+    func didTapSeeAllTopHits(items: [AnimeCardViewModel]) {
+        router.routeToTopHits(items: items)
+    }
+
+    func didTapSeeAllNewEpisodes(items: [AnimeCardViewModel]) {
+        router.routeToNewEpisodes(items: items)
+    }
+
+    func didTapSearch() {
+        router.routeToSearch()
+    }
+
+    func didTapNotifications() {
+        router.routeToNotifications()
+    }
 }
 
 // MARK: Interactor Output

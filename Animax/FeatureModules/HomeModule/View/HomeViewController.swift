@@ -10,26 +10,19 @@ final class HomeViewController: BaseViewController {
 
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
-        cv.backgroundColor = Colors.Grayscale.gray50
+        cv.backgroundColor = .white
         cv.showsVerticalScrollIndicator = false
+        cv.contentInsetAdjustmentBehavior = .never
         cv.dataSource = self
         cv.delegate = self
+        cv.register(HeroBannerCell.self, forCellWithReuseIdentifier: HeroBannerCell.reuseIdentifier)
         cv.register(AnimeCardCell.self, forCellWithReuseIdentifier: AnimeCardCell.reuseIdentifier)
-        cv.register(AnimeTopHitsCell.self, forCellWithReuseIdentifier: AnimeTopHitsCell.reuseIdentifier)
         cv.register(
             HomeSectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: HomeSectionHeaderView.reuseIdentifier
         )
         return cv
-    }()
-
-    private let searchBar: UISearchBar = {
-        let sb = UISearchBar()
-        sb.placeholder = "Search anime..."
-        sb.searchBarStyle = .minimal
-        sb.tintColor = Colors.Primary.primary
-        return sb
     }()
 
     private let activityIndicator: UIActivityIndicatorView = {
@@ -55,6 +48,16 @@ final class HomeViewController: BaseViewController {
         super.viewDidLoad()
         setup()
         output?.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupTransparentNavBar()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        restoreNavBar()
     }
 }
 
@@ -105,15 +108,20 @@ extension HomeViewController: UICollectionViewDataSource {
         let item = section.items[indexPath.item]
 
         switch section.style {
+        case .hero:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: HeroBannerCell.reuseIdentifier,
+                for: indexPath
+            ) as! HeroBannerCell
+            cell.configure(with: item)
+            return cell
+
         case .topHits:
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AnimeTopHitsCell.reuseIdentifier,
+                withReuseIdentifier: AnimeCardCell.reuseIdentifier,
                 for: indexPath
-            ) as! AnimeTopHitsCell
+            ) as! AnimeCardCell
             cell.configure(with: item, rank: indexPath.item + 1)
-            cell.onAddToList = { [weak self] in
-                self?.output?.didSelectAnime(id: item.id)
-            }
             return cell
 
         case .cards:
@@ -136,7 +144,22 @@ extension HomeViewController: UICollectionViewDataSource {
             withReuseIdentifier: HomeSectionHeaderView.reuseIdentifier,
             for: indexPath
         ) as! HomeSectionHeaderView
-        header.configure(with: sections[indexPath.section].title)
+
+        let section = sections[indexPath.section]
+        let showSeeAll = section.style != .hero
+
+        var seeAllCallback: (() -> Void)? = nil
+        if section.style == .topHits {
+            seeAllCallback = { [weak self] in
+                self?.output?.didTapSeeAllTopHits(items: section.items)
+            }
+        } else if section.style == .cards {
+            seeAllCallback = { [weak self] in
+                self?.output?.didTapSeeAllNewEpisodes(items: section.items)
+            }
+        }
+
+        header.configure(with: section.title, showSeeAll: showSeeAll, onSeeAll: seeAllCallback)
         return header
     }
 }
@@ -150,35 +173,18 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - UISearchBarDelegate
-
-extension HomeViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        output?.didSearchAnime(query: searchBar.text ?? "")
-    }
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            output?.didSearchAnime(query: "")
-        }
-    }
-}
-
 // MARK: - Private Setup
 
 private extension HomeViewController {
     func setup() {
-        view.backgroundColor = Colors.Grayscale.gray50
-        navigationItem.titleView = searchBar
-        searchBar.delegate = self
+        view.backgroundColor = .white
 
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
         view.addSubview(errorLabel)
 
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
         activityIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -187,6 +193,66 @@ private extension HomeViewController {
             make.center.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(32)
         }
+
+        setupNavigationBar()
+    }
+
+    func setupNavigationBar() {
+        // Logo button on left
+        let logoButton = UIButton(type: .system)
+        logoButton.setTitle("A", for: .normal)
+        logoButton.setTitleColor(Colors.Primary.primary, for: .normal)
+        logoButton.titleLabel?.font = UIFont.systemFont(ofSize: 26, weight: .black)
+        let logoBarItem = UIBarButtonItem(customView: logoButton)
+        navigationItem.leftBarButtonItem = logoBarItem
+
+        // Right bar: search + bell
+        let searchButton = UIButton(type: .system)
+        searchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        searchButton.tintColor = Colors.Others.white
+        searchButton.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
+
+        let bellButton = UIButton(type: .system)
+        bellButton.setImage(UIImage(systemName: "bell"), for: .normal)
+        bellButton.tintColor = Colors.Others.white
+        bellButton.addTarget(self, action: #selector(bellTapped), for: .touchUpInside)
+
+        let searchItem = UIBarButtonItem(customView: searchButton)
+        let bellItem = UIBarButtonItem(customView: bellButton)
+        navigationItem.rightBarButtonItems = [bellItem, searchItem]
+    }
+
+    func setupTransparentNavBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.titleTextAttributes = [
+            .foregroundColor: Colors.Others.white,
+            .font: Typography.Heading.heading6 as Any
+        ]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.tintColor = Colors.Others.white
+    }
+
+    func restoreNavBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = Colors.Others.white
+        appearance.titleTextAttributes = [
+            .foregroundColor: Colors.Grayscale.gray900,
+            .font: Typography.Heading.heading6 as Any
+        ]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.tintColor = Colors.Grayscale.gray900
+    }
+
+    @objc func searchTapped() {
+        output?.didTapSearch()
+    }
+
+    @objc func bellTapped() {
+        output?.didTapNotifications()
     }
 
     func makeLayout() -> UICollectionViewLayout {
@@ -195,6 +261,8 @@ private extension HomeViewController {
                 return self?.cardsSection()
             }
             switch self.sections[sectionIndex].style {
+            case .hero:
+                return self.heroSection()
             case .topHits:
                 return self.topHitsSection()
             case .cards:
@@ -203,26 +271,37 @@ private extension HomeViewController {
         }
     }
 
-    func topHitsSection() -> NSCollectionLayoutSection {
+    func heroSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(140)
+            heightDimension: .absolute(280)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(280)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        return section
+    }
+
+    func topHitsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(140),
+            heightDimension: .absolute(240)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.88),
-            heightDimension: .absolute(140 * 3 + 8 * 2)
+            widthDimension: .absolute(140),
+            heightDimension: .absolute(240)
         )
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitem: item,
-            count: 3
-        )
-        group.interItemSpacing = .fixed(8)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 16
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 24, bottom: 24, trailing: 24)
         section.boundarySupplementaryItems = [sectionHeader()]
