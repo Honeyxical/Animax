@@ -59,6 +59,13 @@ final class HomeViewController: BaseViewController {
         super.viewWillDisappear(animated)
         restoreNavBar()
     }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        // Compensate for tab bar since contentInsetAdjustmentBehavior = .never
+        collectionView.contentInset.bottom = view.safeAreaInsets.bottom + 16
+        collectionView.verticalScrollIndicatorInsets.bottom = view.safeAreaInsets.bottom
+    }
 }
 
 // MARK: - HomeViewInput

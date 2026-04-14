@@ -191,30 +191,16 @@ private extension ReleaseCalendarViewController {
     func setup() {
         view.backgroundColor = .white
 
-        // Navigation bar: Animax logo left + title + "..." right
-        let logoButton = UIButton(type: .system)
-        let logoAttrs: [NSAttributedString.Key: Any] = [
-            .foregroundColor: Colors.Primary.primary,
-            .font: UIFont.systemFont(ofSize: 22, weight: .heavy)
-        ]
-        logoButton.setAttributedTitle(NSAttributedString(string: "A", attributes: logoAttrs), for: .normal)
-        logoButton.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
-        navigationItem.leftBarButtonItems = [
-            UIBarButtonItem(customView: logoButton),
-            UIBarButtonItem(title: "Release Calendar", style: .plain, target: nil, action: nil)
-        ]
-        navigationItem.leftItemsSupplementBackButton = false
-
-        // Override title to right of logo
-        let titleLabel = UILabel()
-        titleLabel.text = "Release Calendar"
-        titleLabel.font = Typography.Heading.heading5
-        titleLabel.textColor = Colors.Grayscale.gray900
-        let logoBar = UIView()
+        // Navigation bar: Animax "A" logo + title as custom left item
+        let logoBar = UIView(frame: CGRect(x: 0, y: 0, width: 220, height: 36))
         let logoIcon = UILabel()
         logoIcon.text = "A"
         logoIcon.font = .systemFont(ofSize: 22, weight: .heavy)
         logoIcon.textColor = Colors.Primary.primary
+        let titleLabel = UILabel()
+        titleLabel.text = "Release Calendar"
+        titleLabel.font = Typography.Heading.heading5
+        titleLabel.textColor = Colors.Grayscale.gray900
         logoBar.addSubview(logoIcon)
         logoBar.addSubview(titleLabel)
         logoIcon.snp.makeConstraints { make in
@@ -225,7 +211,6 @@ private extension ReleaseCalendarViewController {
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview()
         }
-        logoBar.sizeToFit()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoBar)
 
         let moreButton = UIBarButtonItem(

@@ -20,44 +20,44 @@ final class NotificationsViewController: BaseViewController {
         NotificationItem(
             imageURL: "https://cdn.myanimelist.net/images/anime/5/47767l.jpg",
             title: "One Piece",
-            date: "Today",
-            subtitle: "Episodes 1105",
+            date: "12/20/2024",
+            subtitle: "Episodes 1080",
             badgeText: "Update"
         ),
         NotificationItem(
             imageURL: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
-            title: "Jujutsu Kaisen",
-            date: "Yesterday",
-            subtitle: "Episodes 47",
-            badgeText: "New Release"
+            title: "Jujutsu Kaisen Season 2",
+            date: "12/18/2024",
+            subtitle: "Episodes 10",
+            badgeText: "Update"
         ),
         NotificationItem(
             imageURL: "https://cdn.myanimelist.net/images/anime/1607/117271l.jpg",
-            title: "Dragon Ball Super",
-            date: "2 days ago",
-            subtitle: "Episodes 131",
-            badgeText: "Update"
+            title: "Dragon Ball Super: Super Hero",
+            date: "12/17/2024",
+            subtitle: "",
+            badgeText: "New Release"
         ),
         NotificationItem(
             imageURL: "https://cdn.myanimelist.net/images/anime/1337/99013l.jpg",
-            title: "Attack on Titan",
-            date: "3 days ago",
-            subtitle: "Episodes 87",
-            badgeText: "New Release"
-        ),
-        NotificationItem(
-            imageURL: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
-            title: "My Hero Academia",
-            date: "4 days ago",
-            subtitle: "Episodes 138",
+            title: "The Rising of The Shield Hero: Sea...",
+            date: "12/15/2024",
+            subtitle: "Episodes 20",
             badgeText: "Update"
         ),
         NotificationItem(
-            imageURL: "https://cdn.myanimelist.net/images/anime/1425/94352l.jpg",
-            title: "Demon Slayer",
-            date: "5 days ago",
-            subtitle: "Episodes 44",
+            imageURL: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+            title: "Idol Bu Show Movie",
+            date: "12/14/2024",
+            subtitle: "",
             badgeText: "New Release"
+        ),
+        NotificationItem(
+            imageURL: "https://cdn.myanimelist.net/images/anime/1425/94352l.jpg",
+            title: "Date a Live Season IV",
+            date: "12/12/2024",
+            subtitle: "Episodes 12",
+            badgeText: "Update"
         )
     ]
 

@@ -144,45 +144,50 @@ private extension SortFilterViewController {
     }
 
     func buildContent() {
-        // Sort
+        // Sort — 2 per row (wide pills)
         contentStack.addArrangedSubview(sectionView(
             title: "Sort",
             options: ["Popularity", "Latest Release"],
             selected: filter.sort,
+            itemsPerRow: 2,
             onSelect: { [weak self] val in self?.filter.sort = val; self?.rebuildContent() }
         ))
 
-        // Categories
+        // Categories — 2 per row
         contentStack.addArrangedSubview(sectionView(
             title: "Categories",
             options: ["Episode", "Movie"],
             selected: filter.category,
+            itemsPerRow: 2,
             onSelect: { [weak self] val in self?.filter.category = val; self?.rebuildContent() }
         ))
 
-        // Region
+        // Region — 4 per row
         contentStack.addArrangedSubview(sectionView(
             title: "Region",
             options: ["All", "Japan", "Chinese", "Others"],
             selected: filter.region,
+            itemsPerRow: 4,
             onSelect: { [weak self] val in self?.filter.region = val; self?.rebuildContent() }
         ))
 
-        // Genre
+        // Genre — 3 per row
         let genres = ["All", "Action", "Slice of Life", "Magic", "Sci-Fi", "Mystery", "Comedy", "Romance", "Drama"]
         contentStack.addArrangedSubview(sectionView(
             title: "Genre",
             options: genres,
             selected: filter.genre,
+            itemsPerRow: 3,
             showSeeAll: true,
             onSelect: { [weak self] val in self?.filter.genre = val; self?.rebuildContent() }
         ))
 
-        // Release Year
+        // Release Year — 3 per row
         contentStack.addArrangedSubview(sectionView(
             title: "Release Year",
             options: ["All", "2022", "2021", "2020", "2019"],
             selected: filter.year,
+            itemsPerRow: 3,
             showSeeAll: true,
             onSelect: { [weak self] val in self?.filter.year = val; self?.rebuildContent() }
         ))
@@ -202,6 +207,7 @@ private extension SortFilterViewController {
         title: String,
         options: [String],
         selected: String,
+        itemsPerRow: Int = 3,
         showSeeAll: Bool = false,
         onSelect: @escaping (String) -> Void
     ) -> UIView {
@@ -232,9 +238,8 @@ private extension SortFilterViewController {
             }
         }
 
-        // Chip rows (wrap layout)
+        // Chip rows — frame-based wrap layout
         let chipsContainer = UIView()
-        let itemsPerRow = 3
         let rowSpacing: CGFloat = 12
         let colSpacing: CGFloat = 10
         let screenWidth = UIScreen.main.bounds.width
