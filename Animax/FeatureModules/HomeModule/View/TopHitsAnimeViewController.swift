@@ -25,7 +25,7 @@ final class TopHitsAnimeViewController: BaseViewController {
 
     init(items: [AnimeCardViewModel]) {
         self.items = Array(items.prefix(15))
-        super.init(withoutXib: true)
+        super.init(nibName: nil, bundle: nil)
     }
 
     // MARK: - Lifecycle

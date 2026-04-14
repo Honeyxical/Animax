@@ -23,7 +23,7 @@ final class NewEpisodeReleasesViewController: BaseViewController {
 
     init(items: [AnimeCardViewModel]) {
         self.items = items
-        super.init(withoutXib: true)
+        super.init(nibName: nil, bundle: nil)
     }
 
     // MARK: - Lifecycle
