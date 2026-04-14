@@ -2,36 +2,25 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-// MARK: - SearchViewController
-
 final class SearchViewController: BaseViewController {
 
     private let networkService: AnimeNetworkServiceProtocol = AnimeNetworkService()
     private var searchResults: [AnimeItem] = []
     private var isShowingTopSearches = true
+    private var activeFilter = SearchFilter()
 
     // MARK: - UI
 
-    private let topSearchesLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Top Searches"
-        label.font = Typography.Body.Bold.large
-        label.textColor = Colors.Grayscale.gray900
-        return label
-    }()
-
     private let searchContainerView: UIView = {
         let v = UIView()
-        v.backgroundColor = .white
-        v.layer.cornerRadius = 16
-        v.layer.borderWidth = 2
-        v.layer.borderColor = Colors.Primary.primary.cgColor
+        v.backgroundColor = Colors.Grayscale.gray100
+        v.layer.cornerRadius = 28
         return v
     }()
 
     private let searchIconImageView: UIImageView = {
         let iv = UIImageView(image: UIImage(systemName: "magnifyingglass"))
-        iv.tintColor = Colors.Primary.primary
+        iv.tintColor = Colors.Grayscale.gray500
         iv.contentMode = .scaleAspectFit
         return iv
     }()
@@ -49,21 +38,67 @@ final class SearchViewController: BaseViewController {
 
     private lazy var filterButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.backgroundColor = Colors.Primary.primary
+        btn.backgroundColor = Colors.Transparent.green
         btn.layer.cornerRadius = 14
-        btn.tintColor = .white
+        btn.tintColor = Colors.Primary.primary
         btn.setImage(UIImage(systemName: "line.3.horizontal.decrease"), for: .normal)
+        btn.addTarget(self, action: #selector(handleFilter), for: .touchUpInside)
         return btn
     }()
 
+    // Filter chips row (shown when filters active)
+    private let filterChipsScrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.showsHorizontalScrollIndicator = false
+        sv.isHidden = true
+        return sv
+    }()
+    private let filterChipsStack: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.spacing = 8
+        sv.alignment = .center
+        return sv
+    }()
+
+    // Section header (Top Searches / Search Results)
+    private let sectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Top Searches"
+        label.font = Typography.Body.Bold.large
+        label.textColor = Colors.Grayscale.gray900
+        return label
+    }()
+
+    // Table for top searches (list style)
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.rowHeight = 96
         tv.dataSource = self
+        tv.delegate = self
         tv.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.reuseIdentifier)
         return tv
+    }()
+
+    // Collection view for search results grid
+    private lazy var resultsCollectionView: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: makeGridLayout())
+        cv.backgroundColor = .white
+        cv.showsVerticalScrollIndicator = false
+        cv.isHidden = true
+        cv.dataSource = self
+        cv.delegate = self
+        cv.register(SearchGridCell.self, forCellWithReuseIdentifier: SearchGridCell.reuseIdentifier)
+        return cv
+    }()
+
+    // Empty state
+    private let emptyStateView: UIView = {
+        let v = UIView()
+        v.isHidden = true
+        return v
     }()
 
     private let activityIndicator: UIActivityIndicatorView = {
@@ -87,16 +122,29 @@ final class SearchViewController: BaseViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource / Delegate
 
-extension SearchViewController: UITableViewDataSource {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         searchResults.count
     }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.reuseIdentifier, for: indexPath) as! SearchResultCell
         cell.configure(with: searchResults[indexPath.row])
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
+}
+
+// MARK: - UICollectionViewDataSource / Delegate
+
+extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        searchResults.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchGridCell.reuseIdentifier, for: indexPath) as! SearchGridCell
+        cell.configure(with: searchResults[indexPath.item])
         return cell
     }
 }
@@ -114,69 +162,41 @@ extension SearchViewController: UITextFieldDelegate {
 // MARK: - Private
 
 private extension SearchViewController {
-    func setup() {
-        view.backgroundColor = .white
-        navigationItem.hidesBackButton = true
 
-        // Back button manually
-        let backBtn = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.left"),
-            style: .plain,
-            target: self,
-            action: #selector(backTapped)
-        )
-        navigationItem.leftBarButtonItem = backBtn
-        title = ""
-
-        // Layout
-        view.addSubview(searchContainerView)
-        searchContainerView.addSubview(searchIconImageView)
-        searchContainerView.addSubview(searchTextField)
-        view.addSubview(filterButton)
-        view.addSubview(topSearchesLabel)
-        view.addSubview(tableView)
-        view.addSubview(activityIndicator)
-
-        searchContainerView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.leading.equalToSuperview().inset(16)
-            make.height.equalTo(56)
+    @objc func handleFilter() {
+        let vc = SortFilterViewController(filter: activeFilter)
+        vc.onApply = { [weak self] newFilter in
+            self?.activeFilter = newFilter
+            self?.updateFilterChips()
+            if let query = self?.searchTextField.text, !query.trimmingCharacters(in: .whitespaces).isEmpty {
+                self?.performSearch(query: query)
+            }
         }
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-        filterButton.snp.makeConstraints { make in
-            make.leading.equalTo(searchContainerView.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(16)
-            make.centerY.equalTo(searchContainerView)
-            make.width.height.equalTo(56)
-        }
+    func updateFilterChips() {
+        filterChipsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        let chips = activeFilter.activeChips
+        chips.forEach { chip in
+            let label = UILabel()
+            label.text = chip
+            label.font = Typography.Body.Semibold.small
+            label.textColor = Colors.Others.white
+            label.backgroundColor = Colors.Primary.primary
+            label.layer.cornerRadius = 18
+            label.clipsToBounds = true
+            label.textAlignment = .center
+            label.setContentHuggingPriority(.required, for: .horizontal)
 
-        searchIconImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(20)
+            let container = UIView()
+            container.addSubview(label)
+            label.snp.makeConstraints { make in
+                make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
+            }
+            filterChipsStack.addArrangedSubview(container)
         }
-
-        searchTextField.snp.makeConstraints { make in
-            make.leading.equalTo(searchIconImageView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-        }
-
-        topSearchesLabel.snp.makeConstraints { make in
-            make.top.equalTo(searchContainerView.snp.bottom).offset(20)
-            make.leading.equalToSuperview().inset(16)
-            make.trailing.equalToSuperview().inset(16)
-        }
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(topSearchesLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-
-        activityIndicator.snp.makeConstraints { make in
-            make.center.equalTo(tableView)
-        }
+        filterChipsScrollView.isHidden = chips.isEmpty
     }
 
     @objc func backTapped() {
@@ -192,13 +212,13 @@ private extension SearchViewController {
 
     func loadTopSearches() {
         isShowingTopSearches = true
-        topSearchesLabel.text = "Top Searches"
-        activityIndicator.startAnimating()
+        sectionLabel.text = "Top Searches"
+        showLoading(true)
         networkService.fetchTopAnime { [weak self] result in
-            self?.activityIndicator.stopAnimating()
+            self?.showLoading(false)
             if case let .success(items) = result {
                 self?.searchResults = items
-                self?.tableView.reloadData()
+                self?.showState(.topSearches)
             }
         }
     }
@@ -209,27 +229,226 @@ private extension SearchViewController {
             return
         }
         isShowingTopSearches = false
-        topSearchesLabel.text = "Search Results"
-        activityIndicator.startAnimating()
+        sectionLabel.isHidden = true
+        showLoading(true)
         networkService.searchAnime(query: query) { [weak self] result in
-            self?.activityIndicator.stopAnimating()
+            self?.showLoading(false)
             switch result {
             case let .success(items):
                 self?.searchResults = items
-                self?.tableView.reloadData()
+                self?.showState(items.isEmpty ? .empty : .grid)
             case .failure:
-                break
+                self?.showState(.empty)
             }
+        }
+    }
+
+    func showLoading(_ loading: Bool) {
+        if loading {
+            activityIndicator.startAnimating()
+            tableView.isHidden = true
+            resultsCollectionView.isHidden = true
+            emptyStateView.isHidden = true
+        } else {
+            activityIndicator.stopAnimating()
+        }
+    }
+
+    enum ContentState { case topSearches, grid, empty }
+
+    func showState(_ state: ContentState) {
+        tableView.isHidden = state != .topSearches
+        resultsCollectionView.isHidden = state != .grid
+        emptyStateView.isHidden = state != .empty
+        sectionLabel.isHidden = state != .topSearches
+
+        switch state {
+        case .topSearches:
+            sectionLabel.text = "Top Searches"
+            tableView.reloadData()
+        case .grid:
+            resultsCollectionView.reloadData()
+        case .empty:
+            break
+        }
+    }
+
+    func makeGridLayout() -> UICollectionViewLayout {
+        let itemWidth = (UIScreen.main.bounds.width - 48) / 2
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(itemWidth * 1.45)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(itemWidth * 1.45)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
+        group.interItemSpacing = .fixed(8)
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+
+    func setup() {
+        view.backgroundColor = .white
+        navigationItem.hidesBackButton = true
+        let backBtn = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(backTapped)
+        )
+        navigationItem.leftBarButtonItem = backBtn
+        title = ""
+
+        buildEmptyState()
+
+        view.addSubview(searchContainerView)
+        searchContainerView.addSubview(searchIconImageView)
+        searchContainerView.addSubview(searchTextField)
+        view.addSubview(filterButton)
+        view.addSubview(filterChipsScrollView)
+        filterChipsScrollView.addSubview(filterChipsStack)
+        view.addSubview(sectionLabel)
+        view.addSubview(tableView)
+        view.addSubview(resultsCollectionView)
+        view.addSubview(emptyStateView)
+        view.addSubview(activityIndicator)
+
+        searchContainerView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
+            make.leading.equalToSuperview().inset(16)
+            make.height.equalTo(56)
+        }
+        filterButton.snp.makeConstraints { make in
+            make.leading.equalTo(searchContainerView.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(16)
+            make.centerY.equalTo(searchContainerView)
+            make.width.height.equalTo(56)
+        }
+        searchIconImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(20)
+        }
+        searchTextField.snp.makeConstraints { make in
+            make.leading.equalTo(searchIconImageView.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+        }
+        filterChipsScrollView.snp.makeConstraints { make in
+            make.top.equalTo(searchContainerView.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(40)
+        }
+        filterChipsStack.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(filterChipsScrollView)
+        }
+        sectionLabel.snp.makeConstraints { make in
+            make.top.equalTo(filterChipsScrollView.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(sectionLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        resultsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(filterChipsScrollView.snp.bottom).offset(4)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        emptyStateView.snp.makeConstraints { make in
+            make.top.equalTo(filterChipsScrollView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
+    func buildEmptyState() {
+        // 404 illustration (placeholder with system icons)
+        let illustrationContainer = UIView()
+
+        let notFoundLabel = UILabel()
+        notFoundLabel.text = "404"
+        notFoundLabel.font = .systemFont(ofSize: 80, weight: .bold)
+        notFoundLabel.textColor = Colors.Grayscale.gray200
+        notFoundLabel.textAlignment = .center
+
+        let iconView = UIImageView()
+        iconView.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        iconView.tintColor = Colors.Primary.primary
+        iconView.contentMode = .scaleAspectFit
+
+        let iconCircle = UIView()
+        iconCircle.backgroundColor = Colors.Primary.primary
+        iconCircle.layer.cornerRadius = 28
+
+        let iconWhite = UIImageView()
+        iconWhite.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        iconWhite.tintColor = .white
+        iconWhite.contentMode = .scaleAspectFit
+        iconCircle.addSubview(iconWhite)
+        iconWhite.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(22)
+        }
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Not Found"
+        titleLabel.font = Typography.Heading.heading4
+        titleLabel.textColor = Colors.Primary.primary
+        titleLabel.textAlignment = .center
+
+        let bodyLabel = UILabel()
+        bodyLabel.text = "Sorry, the keyword you entered could not be\nfound. Try to check again or search with other\nkeywords."
+        bodyLabel.font = Typography.Body.Regular.medium
+        bodyLabel.textColor = Colors.Grayscale.gray500
+        bodyLabel.textAlignment = .center
+        bodyLabel.numberOfLines = 0
+
+        emptyStateView.addSubview(illustrationContainer)
+        illustrationContainer.addSubview(notFoundLabel)
+        illustrationContainer.addSubview(iconCircle)
+        emptyStateView.addSubview(titleLabel)
+        emptyStateView.addSubview(bodyLabel)
+
+        illustrationContainer.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-60)
+            make.width.equalTo(240)
+            make.height.equalTo(120)
+        }
+        notFoundLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        iconCircle.snp.makeConstraints { make in
+            make.top.equalTo(notFoundLabel).offset(-10)
+            make.centerX.equalToSuperview().offset(10)
+            make.width.height.equalTo(56)
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(illustrationContainer.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+        }
+        bodyLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(32)
         }
     }
 }
 
-// MARK: - SearchResultCell
+// MARK: - SearchResultCell (list style)
 
 private final class SearchResultCell: UITableViewCell {
     static let reuseIdentifier = "SearchResultCell"
-
-    // MARK: - UI
 
     private let posterImageView: UIImageView = {
         let iv = UIImageView()
@@ -237,6 +456,7 @@ private final class SearchResultCell: UITableViewCell {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 12
         iv.backgroundColor = Colors.Grayscale.gray200
+        iv.isUserInteractionEnabled = true
         return iv
     }()
 
@@ -255,11 +475,28 @@ private final class SearchResultCell: UITableViewCell {
         return label
     }()
 
-    // MARK: - Init
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        selectionStyle = .none
+        backgroundColor = .white
+        contentView.addSubview(posterImageView)
+        posterImageView.addSubview(playIconView)
+        contentView.addSubview(titleLabel)
+
+        posterImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(80)
+        }
+        playIconView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(28)
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(posterImageView.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+        }
     }
 
     required init?(coder: NSCoder) { fatalError() }
@@ -270,8 +507,6 @@ private final class SearchResultCell: UITableViewCell {
         posterImageView.image = nil
     }
 
-    // MARK: - Configure
-
     func configure(with item: AnimeItem) {
         titleLabel.text = item.titleEnglish ?? item.title
         let imageURL = item.images.jpg.largeImageUrl ?? item.images.jpg.imageUrl
@@ -281,30 +516,68 @@ private final class SearchResultCell: UITableViewCell {
     }
 }
 
-private extension SearchResultCell {
-    func setup() {
-        selectionStyle = .none
-        backgroundColor = .white
+// MARK: - SearchGridCell (2-column grid)
 
+private final class SearchGridCell: UICollectionViewCell {
+    static let reuseIdentifier = "SearchGridCell"
+
+    private let posterImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 12
+        iv.backgroundColor = Colors.Grayscale.gray200
+        return iv
+    }()
+
+    private let scoreBadge: UIView = {
+        let v = UIView()
+        v.backgroundColor = Colors.Primary.primary
+        v.layer.cornerRadius = 8
+        return v
+    }()
+
+    private let scoreLabel: UILabel = {
+        let l = UILabel()
+        l.font = Typography.Body.Bold.xSmall
+        l.textColor = Colors.Others.white
+        l.textAlignment = .center
+        return l
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         contentView.addSubview(posterImageView)
-        posterImageView.addSubview(playIconView)
-        contentView.addSubview(titleLabel)
+        posterImageView.addSubview(scoreBadge)
+        scoreBadge.addSubview(scoreLabel)
 
-        posterImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(80)
+        posterImageView.snp.makeConstraints { make in make.edges.equalToSuperview() }
+        scoreBadge.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().inset(8)
         }
-
-        playIconView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(28)
+        scoreLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
         }
+    }
 
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(posterImageView.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
+    required init?(coder: NSCoder) { fatalError() }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.kf.cancelDownloadTask()
+        posterImageView.image = nil
+    }
+
+    func configure(with item: AnimeItem) {
+        let imageURL = item.images.jpg.largeImageUrl ?? item.images.jpg.imageUrl
+        if let urlString = imageURL, let url = URL(string: urlString) {
+            posterImageView.kf.setImage(with: url)
+        }
+        if let score = item.score {
+            scoreLabel.text = String(format: "%.1f", score)
+            scoreBadge.isHidden = false
+        } else {
+            scoreBadge.isHidden = true
         }
     }
 }
