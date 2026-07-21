@@ -49,8 +49,10 @@ struct AnimeDetailViewModel {
     let score: String
     let type: String
     let episodes: String
+    let episodesCount: Int
     let status: String
     let genres: [String]
     let synopsis: String
     let rating: String
+    let year: String
 }

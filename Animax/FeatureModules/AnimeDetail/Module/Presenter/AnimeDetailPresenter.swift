@@ -46,10 +46,12 @@ extension AnimeDetailPresenter: AnimeDetailInteractorOutput {
             score: item.score.map { String(format: "%.1f", $0) } ?? "N/A",
             type: item.type ?? "Unknown",
             episodes: item.episodes.map { "\($0) eps" } ?? "Unknown",
+            episodesCount: item.episodes ?? 0,
             status: item.status ?? "Unknown",
             genres: item.genres.map { $0.name },
             synopsis: item.synopsis ?? "No description available.",
-            rating: item.rating ?? "Not rated"
+            rating: item.rating ?? "Not rated",
+            year: item.year.map { String($0) } ?? ""
         )
         view?.showDetail(viewModel)
     }
