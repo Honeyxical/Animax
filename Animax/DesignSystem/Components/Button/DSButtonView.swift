@@ -51,6 +51,8 @@ public final class DSButtonView: UIView {
         }
     }
     
+    private var actionHandler: (() -> Void)?
+
     private let contentContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -86,6 +88,7 @@ public final class DSButtonView: UIView {
     }
     
     public func configure(with viewModel: ViewModel) {
+        actionHandler = viewModel.actionHandler
         textLabelLeftConstraint.isActive = true
         textLabelRightConstraint.isActive = true
         
@@ -128,7 +131,12 @@ extension DSButtonView {
     func setup() {
         addSubview(contentContainer)
         contentContainer.addSubview(textLabel)
-        
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
+        addTapGesture { [weak self] in
+            self?.actionHandler?()
+        }
+
         NSLayoutConstraint.activate([
             contentContainer.topAnchor.constraint(equalTo: topAnchor),
             contentContainer.bottomAnchor.constraint(equalTo: bottomAnchor),

@@ -1,5 +1,3 @@
-//  Created on 09.05.25
-
 import UIKit
 
 // Module Input
